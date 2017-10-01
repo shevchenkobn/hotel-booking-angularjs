@@ -12,15 +12,15 @@ div.container {
 
 table.booking-table {
     border-spacing: 0rem;
-    
 }
 table.booking-table td, th {
     border: 0 solid lightgray;
     border-width: 0.1rem 0.05rem;
 }
 table.booking-table td div.cell-content,table.booking-table th div.cell-content {
-    height: 5rem;
-    width: 8rem;
+    height: 4rem;
+    width: 7rem;
+    padding: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,12 +28,13 @@ table.booking-table td div.cell-content,table.booking-table th div.cell-content 
 table.booking-table th {
     background-color: #BADFBA;
 }
-table.booking-table td {
+table.booking-table tbody td {
     background-color: #E4E4DE;
+    cursor: pointer;
 }
-table.booking-table td:hover {
+/* table.booking-table td:hover {
     background-color: #EEEEE7;
-}
+} */
 table.booking-table tbody tr.padding {
     height: 0.35rem;
 }
@@ -47,11 +48,6 @@ table.booking-table thead th {
 table.booking-table thead tr:nth-child(1) {
     border-radius: 0.7rem 0.7rem 0 0;
 }
-table.booking-table thead
-{
-    position: sticky;
-    top: 0px;
-}
 table.booking-table thead tr:nth-child(1) td:nth-child(1) {
     visibility: hidden;
 }
@@ -63,4 +59,13 @@ table.booking-table thead tr:nth-child(1) th:nth-last-child(1) {
 }
 table.booking-table tbody tr:nth-last-child(1) td:nth-last-child(1) {
     border-radius: 0 0 0.7rem 0;
+}
+
+
+table.booking-table tbody th div.cell-content {
+    display: block;
+    text-align: center;
+}
+table.booking-table tbody th:nth-child(1):hover {
+    background-color: #C7EEC7;
 }

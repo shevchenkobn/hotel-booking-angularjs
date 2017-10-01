@@ -1,98 +1,43 @@
 <html>
     <head>
         <link rel="stylesheet" href="./styles/style.css">
+        <script src="./scripts/angular.min.js"></script>
+        <script src="./scripts/jquery-3.2.1.min.js"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="table-wrap">
-                <table class="booking-table">
-                    <thead>
-                        <tr>
-                            <td><div class="cell-content">head</div></td>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                            <th><div class="cell-content">head</div></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="padding"></tr>
-                        <tr>
-                            <th><div class="cell-content">head</div></th>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                        </tr>
-                        <tr class="padding"></tr>
-                        <tr>
-                            <th><div class="cell-content">head</div></th>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                        </tr>
-                        <tr class="padding"></tr>
-                        <tr>
-                            <th><div class="cell-content">head</div></th>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                        </tr>
-                        <tr class="padding"></tr>
-                        <tr>
-                            <th><div class="cell-content">head</div></th>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                            <td><div class="cell-content">val</div></td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div data-ng-app="table-reg" data-ng-controller="table-ctrl">
+            <div class="container">
+                <div class="table-wrap">
+                    <table class="booking-table">
+                        <thead>
+                            <tr>
+                                <td><div class="cell-content"></div></td>
+                                <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
+                            <tr data-ng-repeat-end>
+                                <th>
+                                    <div class="cell-content">
+                                        <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
+                                        <div>Storey: {{ room.storey }}</div>
+                                        <span>{{ room.price }}$</span>
+                                    </div>
+                                </th>
+                                <td data-ng-repeat="date in dateRange" 
+                                    data-ng-mousedown="mouseEventHandler(room, date, 'down', $event)"
+                                    data-ng-mousemove="mouseEventHandler(room, date, 'move', $event)"
+                                    data-ng-mouseup="mouseEventHandler(room, date, 'up', $event)">
+                                    <div class="cell-content">{{ formatDate(date) }} </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="output" data-ng-bind="bookedMsg"></div>
             </div>
         </div>
-        <script src="./scripts/angular.min.js"></script>
         <script src="./scripts/scripts.js"></script>
     </body>
 </html>
