@@ -292,23 +292,25 @@ app.controller('table-ctrl', function($scope, $http) {
     $scope.defaultColor = '#E4E4DE';
     $scope.selectingColor = '#ffffff';
     const ColoringEnum = {
-        DEFAULT: defaultColor,
-        SELECTING: selectingColor,
+        DEFAULT: $scope.defaultColor,
+        SELECTING: $scope.selectingColor,
         SELECTED: (function(colorMinLightness) {
             let resume = false;
             let color = "#";
             do
             {
+                color = '#';
                 let lightCounter = 0;
                 for (var i = 0; i < 3; i++)
                 {
                     let currChannel = Math.floor(Math.random() * 255);
                     lightCounter += currChannel;
-                    color += currChannel.toString(16);
+                    let str = currChannel.toString(16); 
+                    color += str.length < 2 ? '0' + str : str;
                 } 
                 resume = lightCounter < colorMinLightness;
             }
-            while (resume || color == highlightColor || color == defaultColor || color == defaultColorHover);
+            while (resume || color == $scope.selectingColor || color == $scope.defaultColor);
             return color;
         })(300)
     };
