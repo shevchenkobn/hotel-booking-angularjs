@@ -200,7 +200,32 @@ app.controller('table-ctrl', function($scope, $http) {
     const data = suitesInfo;
 
     const noBooked = "You haven't book anything yet.";
-    $scope.dateRange = getDateRange(data.dateLimits);
+    $scope.dateRange = (function (dateLimits)
+    {
+        let dateRange = [];
+        let lastDate;
+        if (!isValidDate(lastDate = new Date(dateLimits[1])))
+        {
+            return dateRange;
+        }
+        let firstDate;
+        if (!isValidDate(firstDate = new Date(dateLimits[0])))
+        {
+            firstDate = new Date();
+            firstDate.setDate(firstDate.getDate() + 1);
+        }
+
+        for (var i = firstDate; i <= lastDate; i.setDate(i.getDate() + 1))
+        {
+            dateRange.push(new Date(i.getTime()));
+        }
+        return dateRange;
+
+        function isValidDate(dateObj)
+        {
+            return Object.prototype.toString.call(dateObj) === "[object Date]" && !isNaN(dateObj.valueOf());
+        }
+    })(data.dateLimits);
     $scope.formatDate = function(date)
     {
         let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -263,32 +288,29 @@ app.controller('table-ctrl', function($scope, $http) {
         }
         return -1;
     };
-    const currentSelection = [];
-    const highlightColor = '#ffffff';
-    const defaultColor = '#E4E4DE';
-    const defaultColorHover = '#EEEEE7';
-    const colorMinLightness = 300;
-    let userColor = (function() {
-        let resume = false;
-        let color = "#";
-        do
-        {
-            let lightCounter = 0;
-            for (var i = 0; i < 3; i++)
-            {
-                let currChannel = Math.floor(Math.random() * 255);
-                lightCounter += currChannel;
-                color += currChannel.toString(16);
-            } 
-            resume = lightCounter < colorMinLightness;
-        }
-        while (resume || color == highlightColor || color == defaultColor || color == defaultColorHover);
-        return color;
-    })();
+    
+    $scope.defaultColor = '#E4E4DE';
+    $scope.selectingColor = '#ffffff';
     const ColoringEnum = {
-        DEFAULT: 0,
-        SELECTING: 1,
-        SELECTED: 2
+        DEFAULT: defaultColor,
+        SELECTING: selectingColor,
+        SELECTED: (function(colorMinLightness) {
+            let resume = false;
+            let color = "#";
+            do
+            {
+                let lightCounter = 0;
+                for (var i = 0; i < 3; i++)
+                {
+                    let currChannel = Math.floor(Math.random() * 255);
+                    lightCounter += currChannel;
+                    color += currChannel.toString(16);
+                } 
+                resume = lightCounter < colorMinLightness;
+            }
+            while (resume || color == highlightColor || color == defaultColor || color == defaultColorHover);
+            return color;
+        })(300)
     };
     data.booked.contains = function(room, date) {
         return false;
@@ -411,20 +433,10 @@ app.controller('table-ctrl', function($scope, $http) {
                 temp.length = 0;
             }
         }[type](event);
-        function mark(el, mode)
+        function mark(el, color)
         {
             el = getTdParent(el);
-            switch (mode) {
-                case ColoringEnum.DEFAULT:
-                    el.style.backgroundColor = defaultColor;
-                    break;
-                case ColoringEnum.SELECTING:
-                    el.style.backgroundColor = highlightColor;
-                    break;
-                case ColoringEnum.SELECTED:
-                    el.style.backgroundColor = userColor;
-                    break;
-            }
+            el.style.backgroundColor = color;
         }
         function getTdParent(el)
         {
@@ -441,31 +453,5 @@ app.controller('table-ctrl', function($scope, $http) {
 
 
     $scope.bookedMsg = noBooked;
-    function getDateRange(dateLimits)
-    {
-        let dateRange = [];
-        let lastDate;
-        if (!isValidDate(lastDate = new Date(dateLimits[1])))
-        {
-            return dateRange;
-        }
-        let firstDate;
-        if (!isValidDate(firstDate = new Date(dateLimits[0])))
-        {
-            firstDate = new Date();
-            firstDate.setDate(firstDate.getDate() + 1);
-        }
-
-        for (var i = firstDate; i <= lastDate; i.setDate(i.getDate() + 1))
-        {
-            dateRange.push(new Date(i.getTime()));
-        }
-        return dateRange;
-
-        function isValidDate(dateObj)
-        {
-            return Object.prototype.toString.call(dateObj) === "[object Date]" && !isNaN(dateObj.valueOf());
-        }
-    }
 });
 
