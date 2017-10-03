@@ -314,13 +314,21 @@ app.controller('table-ctrl', function($scope, $http) {
             return color;
         })(300)
     };
+
     data.booked.contains = function(room, date) {
         return false;
     };
+    data.booked.compare = bookedInfo.compare;
+    data.booked.makeBookingItem = bookedInfo.makeBookingItem;
+    data.booked.containsColor = function(color) {
+        return false;
+    }
+
     let buttonPressed = false;
     let removing = false;
+    let exceeded = false;
     let temp = [];
-    temp.sourceIndex = 0;
+    temp.originIndex = 0;
     temp.minIndex = 0;
     temp.maxIndex = 0;
     let cells;
@@ -347,50 +355,61 @@ app.controller('table-ctrl', function($scope, $http) {
                     let index = Array.prototype.slice.call(cells).indexOf(getTdParent(e.srcElement));
                     if (index < 0)
                         return;
-                    let iterationStart, iterationEnd, startDate, increase = true;
-                    console.log(temp, index);
+                    let iterationStart, iterationEnd, startDate, increase = true, changeTempProps = function() {};
                     if (index < temp.minIndex)
                     {
+                        if (exceeded)
+                            return;
                         iterationStart = index;
                         iterationEnd = temp.minIndex - 1;
                         startDate = new Date(date);
-                        temp.minIndex = index;
+                        startDate.setDate(startDate.getDate() - 1);
+                        changeTempProps = function() { temp.minIndex = index; };
                     }
                     else if (index > temp.maxIndex)
                     {
                         iterationStart = temp.maxIndex + 1;
                         iterationEnd = index;
                         startDate = new Date(temp[temp.maxIndex].date);
-                        startDate.setDate(startDate.getDate());
-                        temp.maxIndex = index;
+                        changeTempProps = function() { temp.maxIndex = index; };
                     }
                     else if (index > temp.minIndex && index <= temp.originIndex)
                     {
+                        exceeded = false;
                         iterationStart = temp.minIndex;
                         iterationEnd = index - 1;
-                        temp.minIndex = index;
                         increase = false;
+                        changeTempProps = function() { temp.minIndex = index; };
                     }
                     else if (index >= temp.originIndex && index < temp.maxIndex)
                     {
                         iterationStart = index + 1;
                         iterationEnd = temp.maxIndex;
-                        temp.maxIndex = index;
                         increase = false;
+                        changeTempProps = function() { temp.maxIndex = index; }
                     }
                     if (!(iterationStart && iterationEnd))
                         return;
+                    console.log(temp.minIndex, temp.originIndex, temp.maxIndex, index);
                     if (increase)
                     {
                         for (let i = iterationStart, currDate = startDate; i <= iterationEnd; i++)
                         {
                             if (cells[i].nodeName != "TD")
                                 continue;
-                            if (data.booked.contains(room, date) || temp[i])
-                                break;
                             let d = new Date(currDate);
                             d.setDate(d.getDate() + 1);
-                            temp[i] = bookedInfo.makeBookingItem(room, d);
+                            let item = bookedInfo.makeBookingItem(room, d);
+                            // if (removing)
+                            //     debugger;
+                            if (data.booked.contains(room, date) || removing && bookedInfo.indexOf(item) < 0 ||
+                                !removing && bookedInfo.indexOf(item) >= 0)
+                            {
+                                exceeded = true;
+                                changeTempProps = function() {};
+                                break;
+                            }
+                            temp[i] = item;
                             mark(cells[i], ColoringEnum.SELECTING);
                             currDate.setDate(currDate.getDate() + 1);
                         }
@@ -401,12 +420,17 @@ app.controller('table-ctrl', function($scope, $http) {
                         {
                             if (cells[i].nodeName != "TD")
                                 continue;
-                            if (!temp[i])
-                                break;
+                            // if (data.booked.contains(room, date) || bookedInfo.indexOf(temp[i]) < 0)
+                            // {
+                            //     debugger;
+                            //     changeTempProps = function() {};
+                            //     break;
+                            // }
                             delete temp[i];
                             mark(cells[i], removing ? ColoringEnum.SELECTED : ColoringEnum.DEFAULT);
                         }
                     }
+                    changeTempProps();
                 }
             },
             'up': function(e) {
@@ -431,7 +455,11 @@ app.controller('table-ctrl', function($scope, $http) {
                         mark(cells[i], ColoringEnum.DEFAULT);
                     }
                 }
-                console.log(bookedInfo);
+                let dates = "";
+                for (let i = 0; i < bookedInfo.length; i++)
+                    dates += bookedInfo[i].date + "::";
+                console.log(dates);
+                // console.log(bookedInfo);
                 temp.length = 0;
             }
         }[type](event);
