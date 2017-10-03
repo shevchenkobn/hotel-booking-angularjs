@@ -78,4 +78,43 @@ table.booking-table tbody th:nth-child(1):hover {
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
-  }
+}
+
+.table-info {
+    position: sticky;
+    bottom: -5px;
+    border: 3px solid #50EBFF;
+    background-color: #A8DDC9;
+    border-radius: 5px;
+    padding: 7px 7px 12px;
+    margin: 1rem;
+    color: #4E4E4E;
+}
+.table-info .booked-info {
+    font-size: 150%;
+}
+.table-info .color-info {
+    font-weight: bold;
+}
+.table-info .delim {
+    display: inline-block;
+    border-radius: 0.2rem;
+    background-color: #888;
+    width: 0.125rem;
+    height: 1.55rem;
+    margin: 0 0.8rem;
+}
+.table-info .display {
+    height: 1.3rem;
+    width: 1.9rem;
+    border-radius: 0.3rem;
+    display: inline-block;
+    border: 2px solid #fff;
+    margin: 0 0.4rem;
+}
+.details-icon {
+    margin: 0 0.4rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}

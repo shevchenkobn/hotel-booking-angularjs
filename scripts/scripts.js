@@ -194,12 +194,37 @@ let suitesInfo = {
     ]
 };
 
-let app = angular.module('table-reg', []);
-app.controller('table-ctrl', function($scope, $http) {
+let app = angular.module('table-reg', ['720kb.tooltips']);
+app.factory('Data', function($http) {
     // make an ajax request using $http
-    const data = suitesInfo;
+    return suitesInfo;
+})
+.factory('User', function($http) {
+    var obj = {};
+    Object.defineProperty(obj, 'sendData',
+    {
+        writable: false,
+        value: sendData
+    });
+    Object.defineProperty(obj, 'data',
+    {
+        writable: false,
+        value: {}
+    });
+    function sendData()
+    {
+        // send data to server
+    }
+    return obj;
+})
+.controller('input-fields', function($scope, Data, User) {
+
+})
+.controller('table-ctrl', function($scope, Data, User) {
+    const data = Data;
 
     const noBooked = "You haven't book anything yet.";
+    const totalMsg = ["Total sum: ", "$."];
     $scope.dateRange = (function (dateLimits)
     {
         let dateRange = [];
@@ -314,7 +339,7 @@ app.controller('table-ctrl', function($scope, $http) {
             return color;
         })(300)
     };
-
+    $scope.getUserColor = () => ColoringEnum.SELECTED;
     data.booked.contains = function(room, date) {
         return false;
     };
@@ -390,7 +415,6 @@ app.controller('table-ctrl', function($scope, $http) {
                     }
                     if (!(iterationStart && iterationEnd))
                         return;
-                    console.log(temp.minIndex, temp.originIndex, temp.maxIndex, index);
                     if (increase)
                     {
                         for (let i = iterationStart, currDate = startDate; i <= iterationEnd; i++)
@@ -458,9 +482,8 @@ app.controller('table-ctrl', function($scope, $http) {
                 let dates = "";
                 for (let i = 0; i < bookedInfo.length; i++)
                     dates += bookedInfo[i].date + "::";
-                console.log(dates);
-                // console.log(bookedInfo);
                 temp.length = 0;
+                updateBookedMsg();
             }
         }[type](event);
         function mark(el, color)
@@ -479,9 +502,21 @@ app.controller('table-ctrl', function($scope, $http) {
             return el;
         }
     }
-
-
-
     $scope.bookedMsg = noBooked;
+    function updateBookedMsg()
+    {
+        if (bookedInfo.length == 0)
+        {
+            $scope.bookedMsg = noBooked;
+            return;
+        }
+        let sum = 0;
+        for (let i = 0; i < bookedInfo.length; i++)
+            sum += bookedInfo[i].price;
+        $scope.bookedMsg = totalMsg.join(sum);
+    }
+    /**
+     * Make function for adding user data to User
+     */
 });
 

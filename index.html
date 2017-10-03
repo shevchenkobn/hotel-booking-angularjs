@@ -1,8 +1,9 @@
 <html>
     <head>
-        <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/style.css" rel="stylesheet" type="text/css">
         <script src="./scripts/angular.min.js"></script>
         <script src="./scripts/jquery-3.2.1.min.js"></script>
+        <link href="./scripts/angular-tooltips.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div data-ng-app="table-reg" data-ng-controller="table-ctrl" data-ng-init="defaultColor='#E4E4DE';selectingColor='#ffffff'">
@@ -35,9 +36,16 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="output" data-ng-bind="bookedMsg"></div>
+            </div>
+            <div class="table-info">
+                <span class="color-info">Your color is </span>
+                <span class="display" style="background-color: {{ getUserColor() }}"></span>
+                <span class="delim"></span>
+                <img class="details-icon" src="./images/questionmark-icon.png" alt="Hover me" tooltips tooltip-template>
+                <span class="booked-info" data-ng-bind="bookedMsg"></span>
             </div>
         </div>
+        <script src="./scripts/angular-tooltips.min.js"></script>
         <script src="./scripts/scripts.js"></script>
     </body>
 </html>
