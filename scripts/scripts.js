@@ -1,3 +1,4 @@
+
 let suitesInfo = {
     "rooms": [
         {
@@ -5,182 +6,182 @@ let suitesInfo = {
             storey: 3,
             number: "325",
             price: 400,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 3,
             number: "324",
             price: 400,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 3,
             number: "323",
             price: 400,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 3,
             number: "322",
             price: 380,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 3,
             number: "321",
             price: 390,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 3,
             number: "320",
             price: 350,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 3,
             number: "319",
             price: 440,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 2,
             number: "225",
             price: 320,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 2,
             number: "224",
             price: 340,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 1,
             storey: 2,
             number: "228",
             price: 340,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 0,
             storey: 3,
             number: "300",
             price: 250,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 0,
             storey: 3,
             number: "301",
             price: 260,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 0,
             storey: 3,
             number: "302",
             price: 250,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 0,
             storey: 3,
             number: "303",
             price: 250,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 0,
             storey: 0,
             number: "18",
             price: 250,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 0,
             storey: 0,
             number: "17",
             price: 250,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 0,
             storey: 0,
             number: "16",
             price: 250,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 2,
             storey: 3,
             number: "340",
             price: 650,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 2,
             storey: 3,
             number: "341",
             price: 650,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 2,
             storey: 3,
             number: "342",
             price: 650,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 2,
             storey: 1,
             number: "180",
             price: 630,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 2,
             storey: 1,
             number: "181",
             price: 630,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 2,
             storey: 1,
             number: "182",
             price: 630,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 3,
             storey: 4,
             number: "4A",
             price: 800,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 3,
             storey: 4,
             number: "4B",
             price: 900,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
         {
             type: 3,
             storey: 4,
             number: "4C",
             price: 1100,
-            desciption: "A cosy room"
+            description: "A cosy room"
         },
     ],
     "roomsTypes": [
@@ -194,7 +195,7 @@ let suitesInfo = {
     ]
 };
 
-let app = angular.module('table-reg', ['720kb.tooltips']);
+let app = angular.module('hotel-booking', ['720kb.tooltips']);
 app.factory('Data', function($http) {
     // make an ajax request using $http
     return suitesInfo;
@@ -223,7 +224,7 @@ app.factory('Data', function($http) {
 .controller('table-ctrl', function($scope, Data, User) {
     const data = Data;
 
-    const noBooked = "You haven't book anything yet.";
+    const noBooked = "You haven't booked anything yet.";
     const totalMsg = ["Total sum: ", "$."];
     $scope.dateRange = (function (dateLimits)
     {
@@ -264,15 +265,15 @@ app.factory('Data', function($http) {
     });
     
     const userInfo = [];
-    const bookedInfo = [];
-    bookedInfo.makeBookingItem = function(room, date)
+    const bookedRooms = [];
+    bookedRooms.makeBookingItem = function(room, date)
     {
         var item = {};
         Object.assign(item, room);
         item.date = date;
         return item;
     };
-    bookedInfo.tryAdd = function(room, date)
+    bookedRooms.tryAdd = function(room, date)
     {
         let item;
         if (room.date)
@@ -284,7 +285,7 @@ app.factory('Data', function($http) {
         this.push(item);
         return true;
     };
-    bookedInfo.tryRemove = function(room, date)
+    bookedRooms.tryRemove = function(room, date)
     {
         let item;
         if (room.date)
@@ -300,11 +301,14 @@ app.factory('Data', function($http) {
             this.pop();
         return true;
     }
-    bookedInfo.compare = function(item1, item2) {
+    data.rooms.compare = function(item1, item2) {
         return item1.type == item2.type && item1.storey == item2.storey && item1.number == item2.number && item1.price == item2.price
-            && item1.desciption == item2.desciption && item1.date.valueOf() == item2.date.valueOf();
+            && item1.description == item2.description;
+    }
+    bookedRooms.compare = function(item1, item2) {
+        return data.rooms.compare(item1, item2) && item1.date.valueOf() == item2.date.valueOf();
     };
-    bookedInfo.indexOf = function(item)
+    bookedRooms.indexOf = function(item)
     {
         for (var i = 0; i < this.length; i++)
         {
@@ -343,8 +347,8 @@ app.factory('Data', function($http) {
     data.booked.contains = function(room, date) {
         return false;
     };
-    data.booked.compare = bookedInfo.compare;
-    data.booked.makeBookingItem = bookedInfo.makeBookingItem;
+    data.booked.compare = bookedRooms.compare;
+    data.booked.makeBookingItem = bookedRooms.makeBookingItem;
     data.booked.containsColor = function(color) {
         return false;
     }
@@ -364,14 +368,14 @@ app.factory('Data', function($http) {
                 if (buttonPressed)
                     return;
                 let td = getTdParent(e.srcElement);
-                let item = bookedInfo.makeBookingItem(room, date);
+                let item = bookedRooms.makeBookingItem(room, date);
                 if (data.booked.contains(room, date))
                     return;
                 cells = td.parentNode.childNodes;
                 temp.originIndex = temp.maxIndex = temp.minIndex = Array.prototype.slice.call(cells).indexOf(td);
                 temp[temp.originIndex] = item;
                 buttonPressed = true;
-                removing = bookedInfo.indexOf(item) >= 0;
+                removing = bookedRooms.indexOf(item) >= 0;
                 mark(td, ColoringEnum.SELECTING);
             },
             'move': function(e) {
@@ -423,11 +427,11 @@ app.factory('Data', function($http) {
                                 continue;
                             let d = new Date(currDate);
                             d.setDate(d.getDate() + 1);
-                            let item = bookedInfo.makeBookingItem(room, d);
+                            let item = bookedRooms.makeBookingItem(room, d);
                             // if (removing)
                             //     debugger;
-                            if (data.booked.contains(room, date) || removing && bookedInfo.indexOf(item) < 0 ||
-                                !removing && bookedInfo.indexOf(item) >= 0)
+                            if (data.booked.contains(room, date) || removing && bookedRooms.indexOf(item) < 0 ||
+                                !removing && bookedRooms.indexOf(item) >= 0)
                             {
                                 exceeded = true;
                                 changeTempProps = function() {};
@@ -444,7 +448,7 @@ app.factory('Data', function($http) {
                         {
                             if (cells[i].nodeName != "TD")
                                 continue;
-                            // if (data.booked.contains(room, date) || bookedInfo.indexOf(temp[i]) < 0)
+                            // if (data.booked.contains(room, date) || bookedRooms.indexOf(temp[i]) < 0)
                             // {
                             //     debugger;
                             //     changeTempProps = function() {};
@@ -465,7 +469,7 @@ app.factory('Data', function($http) {
                     {
                         if (!temp[i])
                             continue;
-                        bookedInfo.tryAdd(temp[i]);
+                        bookedRooms.tryAdd(temp[i]);
                         mark(cells[i], ColoringEnum.SELECTED);
                     }
                 }
@@ -475,15 +479,15 @@ app.factory('Data', function($http) {
                     {
                         if (!temp[i])
                             continue;
-                        bookedInfo.tryRemove(temp[i]);
+                        bookedRooms.tryRemove(temp[i]);
                         mark(cells[i], ColoringEnum.DEFAULT);
                     }
                 }
                 let dates = "";
-                for (let i = 0; i < bookedInfo.length; i++)
-                    dates += bookedInfo[i].date + "::";
+                for (let i = 0; i < bookedRooms.length; i++)
+                    dates += bookedRooms[i].date + "::";
                 temp.length = 0;
-                updateBookedMsg();
+                updateBookedDisplay();
             }
         }[type](event);
         function mark(el, color)
@@ -503,18 +507,66 @@ app.factory('Data', function($http) {
         }
     }
     $scope.bookedMsg = noBooked;
-    function updateBookedMsg()
+    $scope.bookedDetails = noBooked;
+    function updateBookedDisplay()
     {
-        if (bookedInfo.length == 0)
+        console.log(bookedRooms);
+        if (bookedRooms.length == 0)
         {
-            $scope.bookedMsg = noBooked;
+            $scope.bookedDetails = $scope.bookedMsg = noBooked;
             return;
         }
         let sum = 0;
-        for (let i = 0; i < bookedInfo.length; i++)
-            sum += bookedInfo[i].price;
+        let groupedBookings = {
+            collection: [],
+            add: function(item) {
+                for (let i = 0; i < this.collection.length; i++)
+                    if (data.rooms.compare(item, this.collection[i]))
+                    {
+                        for (let j = 0; j < this.collection[i].dates.length; j++)
+                        {
+                            if (this.collection[i].dates[j] > item.date)
+                            {
+                                this.collection[i].dates.splice(j, 0, item.date);
+                                return;
+                            }
+                        }
+                        this.collection[i].dates.push(item.date);
+                        return;
+                    }
+                let newItem = {};
+                Object.assign(newItem, item);
+                newItem.dates = [item.date];
+                this.collection.push(newItem);
+            }
+        };
+        for (let i = 0; i < bookedRooms.length; i++)
+        {
+            groupedBookings.add(bookedRooms[i]);
+            sum += bookedRooms[i].price;
+        }
         $scope.bookedMsg = totalMsg.join(sum);
+        let details = "<ul>", col = groupedBookings.collection;
+        for (let i = 0; i < col.length; i++)
+        {
+            details += "<li>";
+            details += "<div><strong>Room number: </strong>" + col[i].number + "</div>" +
+                "<div><strong>Floor: </strong>" + col[i].storey + "</div>" +
+                "<div><strong>Type: </strong>" + data.roomsTypes[col[i].type] + "</div>" +
+                "<div><strong>Price: </strong>" + col[i].price + "</div>" +
+                "<div><strong>Dates: </strong>" + (function(dates) {
+                    let str = "<ul>";
+                    for (let i = 0; i < dates.length; i++)
+                    {
+                        str += "<li>" + $scope.formatDate(dates[i]) + "</li>";
+                    }
+                    return str + "</ul>";
+                })(col[i].dates) + "</div>" +
+                "<div><strong>Description: </strong>" + col[i].description + "</div>";
+        }
+        $scope.bookedDetails = details + "</ul>";
     }
+
     /**
      * Make function for adding user data to User
      */

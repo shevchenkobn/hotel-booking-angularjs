@@ -5,43 +5,60 @@
         <script src="./scripts/jquery-3.2.1.min.js"></script>
         <link href="./scripts/angular-tooltips.min.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
-        <div data-ng-app="table-reg" data-ng-controller="table-ctrl" data-ng-init="defaultColor='#E4E4DE';selectingColor='#ffffff'">
+    <body data-ng-app="hotel-booking">
+        <div data-ng-controller="table-ctrl">
             <div class="container">
-                <div class="table-wrap">
-                    <table class="booking-table">
-                        <thead>
-                            <tr>
-                                <td><div class="cell-content"></div></td>
-                                <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
-                            <tr data-ng-repeat-end>
-                                <th>
-                                    <div class="cell-content">
-                                        <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
-                                        <div>Storey: {{ room.storey }}</div>
-                                        <span>{{ room.price }}$</span>
-                                    </div>
-                                </th>
-                                <td data-ng-repeat="date in dateRange" 
-                                    data-ng-mousedown="mouseEventHandler(room, date, 'down', $event)"
-                                    data-ng-mousemove="mouseEventHandler(room, date, 'move', $event)"
-                                    data-ng-mouseup="mouseEventHandler(room, date, 'up', $event)">
-                                    <div class="cell-content noselect">{{ formatDate(date) }} </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="center-blocks">
+                    <div class="table-wrap">
+                        <table class="booking-table">
+                            <thead>
+                                <tr>
+                                    <td><div class="cell-content"></div></td>
+                                    <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
+                                <tr data-ng-repeat-end>
+                                    <th>
+                                        <div class="cell-content"
+                                            tooltips
+                                            tooltip-side="right"
+                                            tooltip-template="{{ room.description }}"
+                                            tooltip-show-trigger="click mouseover"
+                                            tooltip-show-trigger="click mouseout"
+                                            tooltip-class="room-info">
+                                            <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
+                                            <div>Floor: {{ room.storey }}</div>
+                                            <span>{{ room.price }}$</span>
+                                        </div>
+                                    </th>
+                                    <td data-ng-repeat="date in dateRange" 
+                                        data-ng-mousedown="mouseEventHandler(room, date, 'down', $event)"
+                                        data-ng-mousemove="mouseEventHandler(room, date, 'move', $event)"
+                                        data-ng-mouseup="mouseEventHandler(room, date, 'up', $event)">
+                                        <div class="cell-content noselect">{{ formatDate(date) }} </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="table-info">
                 <span class="color-info">Your color is </span>
                 <span class="display" style="background-color: {{ getUserColor() }}"></span>
                 <span class="delim"></span>
-                <img class="details-icon" src="./images/questionmark-icon.png" alt="Hover me" tooltips tooltip-template>
+                <img class="details-icon"
+                     src="./images/questionmark-icon.png"
+                     alt="Hover me"
+                     tooltips
+                     tooltip-template="{{ bookedDetails }}"
+                     tooltip-controller="table-ctrl"
+                     tooltip-size="large"
+                     tooltip-show-trigger="click"
+                     tooltip-hide-trigger="click"
+                     tooltip-class="booking-summary">
                 <span class="booked-info" data-ng-bind="bookedMsg"></span>
             </div>
         </div>

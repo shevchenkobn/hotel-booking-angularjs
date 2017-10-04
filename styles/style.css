@@ -2,6 +2,10 @@ html {
     font-family: sans-serif, Arial, Helvetica;
 }
 
+div.center-blocks {
+    margin: 0 auto;
+}
+
 div.table-wrap {
     overflow-x: auto;
 }
@@ -32,9 +36,6 @@ table.booking-table tbody td {
     background-color: #E4E4DE;
     cursor: pointer;
 }
-/* table.booking-table td:hover {
-    background-color: #EEEEE7;
-} */
 table.booking-table tbody tr.padding {
     height: 0.35rem;
 }
@@ -117,4 +118,14 @@ table.booking-table tbody th:nth-child(1):hover {
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
+}
+
+.booking-summary {
+    min-width: 20rem;
+    max-height: 13rem;
+    text-align: left;
+    overflow-y: auto;
+}
+.room-info {
+    min-width: 20rem;
 }
