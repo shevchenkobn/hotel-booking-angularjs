@@ -195,7 +195,7 @@ let suitesInfo = {
     ]
 };
 
-let app = angular.module('hotel-booking', ['720kb.tooltips']);
+let app = angular.module('hotel-booking', ['720kb.tooltips', 'ngAnimate', 'ui.router']);
 app.factory('Data', function($http) {
     // make an ajax request using $http
     return suitesInfo;
@@ -219,6 +219,25 @@ app.factory('Data', function($http) {
     return obj;
 })
 .controller('input-fields', function($scope, Data, User) {
+	let complete = false;
+	Object.defineProperty($scope, 'isComplete', {
+		writable: false,
+		value: function() {
+			return complete;
+		}
+	});
+    $scope.name = "";
+    $scope.email = "";
+    $scope.is18 = false;
+    $scope.namePattern = /[A-Z]([a-z-'])+/;
+    $scope.submit = function () {
+        User.name = $scope.name;
+        User.email = $scope.email;
+
+    };
+
+})
+.controller('finish', function ($scope, Data, User) {
 
 })
 .controller('table-ctrl', function($scope, Data, User) {
