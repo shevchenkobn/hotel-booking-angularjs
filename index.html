@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta charset="utf8">
         <link rel="stylesheet" href="./styles/style.css" type="text/css">
         <script src="./scripts/jquery-3.2.1.min.js"></script>
         <script src="./scripts/angular.min.js"></script>
@@ -9,6 +10,7 @@
         <link href="./styles/ng-animation.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="./scripts/dummy-data.js"></script>
         <script src="./scripts/app.js"></script>
+        <title>Hotel booking</title>
     </head>
     <body data-ng-app="hotel-booking" data-ng-controller="mainController">
         <div class="page-header">
@@ -38,7 +40,7 @@
                         <label style="display: inline-block"> I am 18 already: <input type="checkbox" data-ng-model="is18" required></label>
                         <span class="warning" data-ng-show="user.email.$touched && !is18">You should be 18 to proceed</span>
                     </div>
-                    <button type="submit" data-ng-click="formSubmit()" data-ng-disabled="user.$invalid" ui-sref="form.room">Next >></button>
+                    <button data-ng-click="formSubmit()" data-ng-disabled="user.$invalid" ui-sref="form.room">Next >></button>
                 </form>
             </div>
         </div>
