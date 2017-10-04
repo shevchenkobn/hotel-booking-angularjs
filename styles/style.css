@@ -1,9 +1,89 @@
+@font-face {
+    font-family: GrandHotel;
+    src: url("../fonts/GrandHotel-Regular.otf") format("opentype");
+}
+
 html {
     font-family: sans-serif, Arial, Helvetica;
 }
+body {
+    padding: 0;
+    margin: 0;
+}
 
-div.center-blocks {
-    margin: 0 auto;
+
+.page-header {
+    background-color: #8cbf8c;
+    padding: 1rem;
+    color: #fff;
+    z-index: -2;
+}
+.page-header h2 {
+    margin: 0;
+    display: inline;
+}
+.page-header .info {
+    float: right;
+    color: #0D66EB;
+    font-weight: 600;
+    text-align: right;
+}
+.logo-script {
+    font-family: GrandHotel;
+    font-size: 6rem;
+    letter-spacing: 0.3rem;
+    font-weight: 600;
+}
+
+#status-bar {
+    width: 100%;
+    display: block;
+}
+#status-bar .progressbar {
+    list-style-type: none;
+    counter-reset: step;
+}
+#status-bar .progressbar li {
+    float: left;
+    width: 33.33%;
+    position: relative;
+    text-align: center;
+}
+#status-bar .progressbar li::before {
+    content: counter(step);
+    counter-increment: step;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 50%;
+    border: 1px solid #50EBFF;
+    margin: 0 auto 10px auto;
+    background-color: #0D66EB;
+    display: block;
+    text-align: center;
+}
+#status-bar .progressbar li::after {
+    content: '';
+    height: 20px;
+    width: 100%;
+    background-color: #B1E2E2;
+    position: absolute;
+    top: 7.5px;
+    left: -50%;
+    z-index: -1;
+}
+
+#status-bar .progressbar li.active::after {
+    background-color: #358c35;
+}
+#status-bar .progressbar li.active::before {
+    background-color: #7eda7e;
+}
+
+center-blocks {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 div.table-wrap {
@@ -136,13 +216,76 @@ table.booking-table tbody th:nth-child(1):hover {
 }
 
 
-#status-buttons                 {  }
-#status-buttons a               { color:#AAA; display:inline-block; font-size:1.2rem; margin-right:1rem; text-align:center; text-transform:uppercase; }
-#status-buttons a:hover         { text-decoration:none; }
 
-/* we will style the span as the circled number */
-#status-buttons span            { background:#333; display:block; height:3rem; margin:0 auto 1rem; padding-top: 0.5rem; width:3rem; 
-    border-radius:50%; }
+input {
+    border: 1px solid #4f6b6b;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background: #e6ffff;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4f6b6b;
+    letter-spacing: 1px;
+}
 
-/* active buttons turn light green-blue*/
-#status-buttons a.active span   { background:#00BC8C; }
+button {
+    background: #7ec3ff;
+    border-width: 0px;
+    padding: 0.8rem 1.2rem;
+    margin: 0.7rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 100%;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+}
+button.small-nomargin {
+    padding: 0.5rem 0.8rem;
+    margin: 0;
+    float: right;
+}
+button:disabled {
+    background: #adadad;
+    border: 2px solid #797979;
+    cursor: not-allowed;
+}
+
+label {
+    display: block;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: #4e4e4e;
+    margin: 0.2rem;
+}
+
+div.input-group
+{
+    margin: 20px;
+}
+
+.warning {
+    color: #c17008;
+    font-weight: 600;
+    font-style: italic;
+    text-shadow: 1px 1px #e8cc63;
+    margin: 0.2rem;
+}
+
+.panel {
+    width: 30%;
+    min-width: 33rem;
+    border: 5px solid #8cbf8c;
+    margin: 2rem auto;
+    padding: 20px;
+    border-radius: 1rem;
+}
+
+.thank {
+    font-family: GrandHotel;
+    color: #8cbf8c;
+    font-size: 6rem;
+}

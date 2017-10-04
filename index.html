@@ -3,90 +3,102 @@
         <link rel="stylesheet" href="./styles/style.css" type="text/css">
         <script src="./scripts/jquery-3.2.1.min.js"></script>
         <script src="./scripts/angular.min.js"></script>
-        <script type="text/javascript" src="./scripts/angular-ui-router.min.js"></script>
-        <script src="./styles/angular-tooltips.min.js"></script>
-        <link href="./scripts/angular-tooltips.min.css" rel="stylesheet" type="text/css" />
+        <script src="./scripts/angular-tooltips.min.js"></script>
+        <link href="./styles/angular-tooltips.min.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="./scripts/angular-animate.min.js"></script>
-        <link href="./scripts/angular-animation.css" rel="stylesheet" type="text/css" />
+        <link href="./styles/ng-animation.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="./scripts/dummy-data.js"></script>
         <script src="./scripts/app.js"></script>
     </head>
-    <body data-ng-app="hotel-booking">
-        <div ui-view></div> 
-
-
-
-
-        <div class="container">
-            <div data-ng-controller="input-fields">
+    <body data-ng-app="hotel-booking" data-ng-controller="mainController">
+        <div class="page-header">
+            <h2 class="logo-script">Hotel booking</h2>
+            <div class="info">+1 1234 5678</br>hotel@hotel-mail.com</div>
+            <h2 style="display: block" data-ng-bind="hint"></h2>
+            <div id="status-bar">
+                <ul class="progressbar">
+                    <li data-ng-class="getState() >= prop ? 'active' : ''" data-ng-repeat="prop in stateEnum"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container" data-ng-show="getState() == stateEnum.FORM" class="center-blocks">
+            <div class="panel">
                 <form name="user">
-                    <label for="name">Full name:</label>
-                    <input id="name" name="name" type="text" data-ng-model="name" data-ng-pattern="namePattern" required />
-                    <span data-ng-show="user.name.$touched && user.name.$invalid">Please, enter your name</span>
-                    <label for="email">Email:</label>
-                    <input id="email" name="email" type="email" data-ng-model="email" required />
-                    <span data-ng-show="user.email.$touched && user.email.$invalid">Please, enter valid email</span>
-                    <label> I am 18 already: <input type="checkbox" data-ng-model="is18" required></label>
-                    <span data-ng-show="user.email.$touched && !is18">You should be 18 to proceed</span>
-                    <input type="submit" data-ng-click="submit()" />
+                    <div class="input-group">
+                        <label for="name">Full name:</label>
+                        <input id="name" name="name" type="text" data-ng-model="name" data-ng-pattern="namePattern" required />
+                        <span class="warning" data-ng-show="user.name.$touched && user.name.$invalid">Please, enter your name</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email:</label>
+                        <input id="email" name="email" type="email" data-ng-model="email" required />
+                        <span class="warning" data-ng-show="user.email.$touched && user.email.$invalid">Please, enter valid email</span>
+                    </div>
+                    <div class="input-group">
+                        <label style="display: inline-block"> I am 18 already: <input type="checkbox" data-ng-model="is18" required></label>
+                        <span class="warning" data-ng-show="user.email.$touched && !is18">You should be 18 to proceed</span>
+                    </div>
+                    <button type="submit" data-ng-click="formSubmit()" data-ng-disabled="user.$invalid" ui-sref="form.room">Next >></button>
                 </form>
             </div>
-            <div data-ng-controller="table-ctrl" data-ng-hide="isComplete()">
-                <div class="center-blocks">
-                    <div class="table-wrap">
-                        <table class="booking-table">
-                            <thead>
-                                <tr>
-                                    <td><div class="cell-content"></div></td>
-                                    <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
-                                <tr data-ng-repeat-end>
-                                    <th>
-                                        <div class="cell-content"
-                                             tooltips
-                                             tooltip-side="right"
-                                             tooltip-template="{{ room.description }}"
-                                             tooltip-show-trigger="click mouseover"
-                                             tooltip-class="room-info">
-                                            <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
-                                            <div>Floor: {{ room.storey }}</div>
-                                            <span>{{ room.price }}$</span>
-                                        </div>
-                                    </th>
-                                    <td data-ng-repeat="date in dateRange"
-                                        data-ng-mousedown="mouseEventHandler(room, date, 'down', $event)"
-                                        data-ng-mousemove="mouseEventHandler(room, date, 'move', $event)"
-                                        data-ng-mouseup="mouseEventHandler(room, date, 'up', $event)">
-                                        <div class="cell-content noselect">{{ formatDate(date) }} </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="table-info">
-                    <span class="color-info">Your color is </span>
-                    <span class="display" style="background-color: {{ getUserColor() }}"></span>
-                    <span class="delim"></span>
-                    <img class="details-icon"
-                         src="./images/questionmark-icon.png"
-                         alt="Hover me"
-                         tooltips
-                         tooltip-template="{{ bookedDetails }}"
-                         tooltip-controller="table-ctrl"
-                         tooltip-size="large"
-                         tooltip-show-trigger="click"
-                         tooltip-hide-trigger="click"
-                         tooltip-class="booking-summary">
-                    <span class="booked-info" data-ng-bind="bookedMsg"></span>
+        </div>
+        <div data-ng-show="getState() == stateEnum.ROOM">
+            <div class="center-blocks container">
+                <div class="table-wrap">
+                    <table class="booking-table">
+                        <thead>
+                            <tr>
+                                <td><div class="cell-content"></div></td>
+                                <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
+                            <tr data-ng-repeat-end>
+                                <th>
+                                    <div class="cell-content"
+                                            tooltips
+                                            tooltip-side="right"
+                                            tooltip-template="{{ room.description }}"
+                                            tooltip-show-trigger="click mouseover"
+                                            tooltip-class="room-info">
+                                        <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
+                                        <div>Floor: {{ room.storey }}</div>
+                                        <span>{{ room.price }}$</span>
+                                    </div>
+                                </th>
+                                <td data-ng-repeat="date in dateRange"
+                                    data-ng-mousedown="mouseEventHandler(room, date, 'down', $event)"
+                                    data-ng-mousemove="mouseEventHandler(room, date, 'move', $event)"
+                                    data-ng-mouseup="mouseEventHandler(room, date, 'up', $event)">
+                                    <div class="cell-content noselect">{{ formatDate(date) }} </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div data-ng-controller="finish" data-ng-hide="isComplete()">
-
+            <div class="table-info">
+                <span class="color-info">Your color is </span>
+                <span class="display" style="background-color: {{ getUserColor() }}"></span>
+                <span class="delim"></span>
+                <img class="details-icon"
+                        src="./images/questionmark-icon.png"
+                        alt="?, details"
+                        tooltips
+                        tooltip-template="{{ bookedDetails }}"
+                        tooltip-controller="mainController"
+                        tooltip-size="large"
+                        tooltip-show-trigger="click"
+                        tooltip-hide-trigger="click"
+                        tooltip-class="booking-summary">
+                <span class="booked-info" data-ng-bind="bookedMsg"></span>
+                <button class="small-nomargin" data-ng-disabled="!bookedCount()" data-ng-click="bookingFinish()">Next >></button>
             </div>
+        </div>
+        <div data-ng-show="getState() == stateEnum.FINISH">
+            <h1 class="thank">Thank you for registration!</h1>
+            {{ seeUser() | json}}
         </div>
     </body>
 </html>

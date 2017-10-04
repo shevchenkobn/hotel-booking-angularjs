@@ -187,7 +187,7 @@ let __suitesInfo = {
         "Single", "Double", "Triple/Family", "Suite"
     ],
     "dateLimits": [
-      "","9 Oct 2017"  
+      "","29 Oct 2017"  
     ],
     "booked": [
 

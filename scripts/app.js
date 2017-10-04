@@ -1,22 +1,5 @@
-let app = angular.module('hotel-booking', ['720kb.tooltips', 'ngAnimate', 'ui.router']);
-app.config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider.state('form', {
-        url: '/form',
-        templateUrl: 'form.html',
-        controller: 'formController'
-    })
-    .state('form.profile', {
-        url: '/profile',
-        templateUrl: 'form-profile.html'
-    })
-    .state('form.room', {
-        url: '/room',
-        templateUrl: 'form-payment.html'
-    })
-
-    $urlRouterProvider.otherwise('/form/profile');
-})
-.factory('Data', function($http) {
+let app = angular.module('hotel-booking', ['720kb.tooltips']);
+app.factory('Data', function($http) {
     // make an ajax request using $http
     return __suitesInfo;
 })
@@ -38,31 +21,41 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
     return obj;
 })
-.controller('input-fields', function($scope, Data, User) {
-	let complete = false;
-	Object.defineProperty($scope, 'isComplete', {
+.controller('mainController', function($scope, $window, Data, User) {
+    $scope.stateEnum = {
+        FORM: 1,
+        ROOM: 2,
+        FINISH: 3
+    };
+    hints = ["Enter your personal data", "Select rooms you want to book. Click on preferable date.", "Congratulations!"];
+    let viewState;
+    function setState(value) {
+        viewState = value;
+        $scope.hint = hints[value - 1];
+        $window.scrollTo(0, 0);
+    }
+    setState($scope.stateEnum.FORM);
+    $scope.hint;
+    Object.defineProperty($scope, 'getState', {
 		writable: false,
 		value: function() {
-			return complete;
+			return viewState;
 		}
-	});
+    });
+    //// FORM 
     $scope.name = "";
     $scope.email = "";
     $scope.is18 = false;
-    $scope.namePattern = /[A-Z]([a-z-'])+/;
-    $scope.submit = function () {
+    $scope.namePattern = /[A-Z]([a-zA-Z\-'])+/;
+    $scope.formSubmit = function () {
         User.name = $scope.name;
         User.email = $scope.email;
-
+        setState($scope.stateEnum.ROOM);
     };
 
-})
-.controller('finish', function ($scope, Data, User) {
 
-})
-.controller('table-ctrl', function($scope, Data, User) {
+    //// BOOK
     const data = Data;
-
     const noBooked = "You haven't booked anything yet.";
     const totalMsg = ["Total sum: ", "$."];
     $scope.dateRange = (function (dateLimits)
@@ -202,6 +195,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
     let cells;
     $scope.mouseEventHandler = function(room, date, type, event)
     {
+        if (event.originalEvent)
+            event = event.originalEvent;
         return {
             'down': function(e) {
                 if (buttonPressed)
@@ -404,6 +399,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 "<div><strong>Description: </strong>" + col[i].description + "</div>";
         }
         $scope.bookedDetails = details + "</ul>";
+    }
+    $scope.bookedCount = function()
+    {
+        return bookedRooms.length;
+    }
+    $scope.bookingFinish = function()
+    {
+        User.booked = bookedRooms;
+        setState($scope.stateEnum.FINISH);
+    }
+
+    //// FINISH
+
+    $scope.seeUser = function() {
+        return User;
     }
 
     /**
