@@ -8,11 +8,17 @@
         <link href="./scripts/angular-tooltips.min.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="./scripts/angular-animate.min.js"></script>
         <link href="./scripts/angular-animation.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="./scripts/dummy-data.js"></script>
         <script src="./scripts/app.js"></script>
     </head>
     <body data-ng-app="hotel-booking">
+        <div ui-view></div> 
+
+
+
+
         <div class="container">
-            <div data-ng-controller="input-fields" data-ng-hide="isComplete()">
+            <div data-ng-controller="input-fields">
                 <form name="user">
                     <label for="name">Full name:</label>
                     <input id="name" name="name" type="text" data-ng-model="name" data-ng-pattern="namePattern" required />
