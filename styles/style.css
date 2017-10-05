@@ -27,7 +27,7 @@ h2 {
 }
 .page-header .info {
     float: right;
-    color: #0D66EB;
+    color: #428eff;
     font-weight: 600;
     text-align: right;
 }
@@ -287,19 +287,6 @@ div.input-group
 }
 
 
-.finish {
-    color: #8cbf8c;
-    text-align: center;
-}
-.finish div.summary{
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.thank {
-    font-family: GrandHotel;
-    font-size: 6rem;
-}
 
 .filters {
     border: 3px solid #50EBFF;
@@ -324,7 +311,27 @@ div.input-group
     width: 6rem;
 }
 
+.finish {
+    color: #8cbf8c;
+    text-align: center;
+}
+.finish div.summary{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.thank {
+    font-family: GrandHotel;
+    font-size: 6rem;
+}
+
+
 .summary div {
-    font-size: 150%;
+    font-size: 1.5rem;
     text-align: left;
+}
+
+.finish button {
+    margin-left: auto;
+    margin-right: auto;
 }
