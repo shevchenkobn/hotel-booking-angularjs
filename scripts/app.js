@@ -1,5 +1,9 @@
-let app = angular.module('hotel-booking', ['720kb.tooltips']);
-app.factory('Data', function($http) {
+// $(document).ready(function(){
+//     $(".sticker-top").sticky({topSpacing:3});
+//   });
+
+let app = angular.module('hotel-booking', ['720kb.tooltips'])
+.factory('Data', function($http) {
     // make an ajax request using $http
     return __suitesInfo;
 })
@@ -29,18 +33,18 @@ app.factory('Data', function($http) {
             $scope.availableFloors.push(Data.rooms[i].storey);
     $scope.availableFloors.sort();
     $scope.stateEnum = {
-        FORM: 1,
-        ROOM: 2,
+        ROOM: 1,
+        FORM: 2,
         FINISH: 3
     };
-    hints = ["Enter your personal data", "Select rooms you want to book. Click on preferable date.", "Congratulations!"];
+    hints = ["Select rooms you want to book. Click on preferable date. Try dragging ;)", "Enter your personal data", "Congratulations!"];
     let viewState;
     function setState(value) {
         viewState = value;
         $scope.hint = hints[value - 1];
         $window.scrollTo(0, 0);
     }
-    setState($scope.stateEnum.FORM);
+    setState($scope.stateEnum.ROOM);
     $scope.hint;
     Object.defineProperty($scope, 'getState', {
 		writable: false,
@@ -48,16 +52,7 @@ app.factory('Data', function($http) {
 			return viewState;
 		}
     });
-    //// FORM 
-    $scope.name = "";
-    $scope.email = "";
-    $scope.is18 = false;
-    $scope.namePattern = /[A-Z]([a-zA-Z\-'])+/;
-    $scope.formSubmit = function () {
-        User.name = $scope.name;
-        User.email = $scope.email;
-        setState($scope.stateEnum.ROOM);
-    };
+    $scope.goto = setState;
 
 
     //// BOOK
@@ -157,40 +152,27 @@ app.factory('Data', function($http) {
         return -1;
     };
     
-    $scope.defaultColor = '#E4E4DE';
-    $scope.selectingColor = '#ffffff';
+    $scope.selectingClass = 'choosing';    
+    $scope.selectedClass = 'chosen';
+    $scope.bookedClass = 'booked';
+    $scope.defaultClass = '';
     const ColoringEnum = {
-        DEFAULT: $scope.defaultColor,
-        SELECTING: $scope.selectingColor,
-        SELECTED: (function(colorMinLightness) {
-            let resume = false;
-            let color = "#";
-            do
-            {
-                color = '#';
-                let lightCounter = 0;
-                for (var i = 0; i < 3; i++)
-                {
-                    let currChannel = Math.floor(Math.random() * 255);
-                    lightCounter += currChannel;
-                    let str = currChannel.toString(16); 
-                    color += str.length < 2 ? '0' + str : str;
-                } 
-                resume = lightCounter < colorMinLightness;
-            }
-            while (resume || color == $scope.selectingColor || color == $scope.defaultColor);
-            return color;
-        })(300)
+        DEFAULT: $scope.defaultClass,
+        SELECTING: $scope.selectingClass,
+        SELECTED: $scope.selectedClass,
+        BOOKED: $scope.bookedClass
     };
-    $scope.getUserColor = () => ColoringEnum.SELECTED;
+    data.booked.isInit = false;
     data.booked.contains = function(room, date) {
+        let item = this.makeBookingItem(room, date);
+        for (let i = 0; i < this.length; i++)
+            if (this.compare(this[i], item))
+                return true;
         return false;
     };
+    $scope.isBooked = data.booked.contains.bind(data.booked);
     data.booked.compare = bookedRooms.compare;
     data.booked.makeBookingItem = bookedRooms.makeBookingItem;
-    data.booked.containsColor = function(color) {
-        return false;
-    }
 
     let buttonPressed = false;
     let removing = false;
@@ -331,10 +313,18 @@ app.factory('Data', function($http) {
                 updateBookedDisplay();
             }
         }[type](event);
-        function mark(el, color)
+        function mark(el, className)
         {
             el = getTdParent(el);
-            el.style.backgroundColor = color;
+            let list = el.classList;
+            for (let prop in ColoringEnum)
+                if (list.contains(ColoringEnum[prop]))
+                {
+                    list.remove(ColoringEnum[prop]);
+                    break;
+                }
+            if (className)
+                list.add(className)
         }
         function getTdParent(el)
         {
@@ -414,7 +404,7 @@ app.factory('Data', function($http) {
     $scope.bookingFinish = function()
     {
         User.booked = bookedRooms;
-        setState($scope.stateEnum.FINISH);
+        setState($scope.stateEnum.FORM);
         $scope.userInfo = $sce.trustAsHtml((function() {
             let str = "<div><strong>Name: </strong>" + User.name + "</div>" + 
             "<div><strong>Email: </strong>" + User.email + "</div><div><strong>Booked rooms:</strong><div>" + 
@@ -432,6 +422,18 @@ app.factory('Data', function($http) {
             return !minPrice || !maxPrice && item.price >= this.minPrice && item.price <= this.maxPrice;
         }
     };
+    //// FORM 
+    $scope.name = "";
+    $scope.email = "";
+    $scope.is18 = false;
+    $scope.namePattern = /[A-Z]([a-zA-Z\-'])+/;
+    $scope.formSubmit = function () {
+        User.name = $scope.name;
+        User.email = $scope.email;
+        setState($scope.stateEnum.FINISH);
+    };
+
+
 
     //// FINISH
 

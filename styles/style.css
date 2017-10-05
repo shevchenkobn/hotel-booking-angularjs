@@ -33,14 +33,15 @@ h2 {
 }
 .logo-script {
     font-family: GrandHotel;
-    font-size: 6rem;
-    letter-spacing: 0.3rem;
-    font-weight: 600;
+    font-size: 3rem;
+    letter-spacing: 0.4rem;
+    font-weight: 500;
 }
 
 #status-bar {
     width: 100%;
     display: block;
+    z-index: -2;
 }
 #status-bar .progressbar {
     list-style-type: none;
@@ -53,31 +54,37 @@ h2 {
     text-align: center;
 }
 #status-bar .progressbar li::before {
+    content: '';
+    height: 15px;
+    width: 100%;
+    background-color: #B1E2E2;
+    position: absolute;
+    top: 10px;
+    left: -50%;
+    z-index: -1;
+}
+#status-bar .progressbar li::after {
     content: counter(step);
     counter-increment: step;
     width: 35px;
     height: 35px;
     line-height: 35px;
+    font-size: 20px;
     border-radius: 50%;
     border: 1px solid #50EBFF;
     margin: 0 auto 10px auto;
     background-color: #0D66EB;
     display: block;
     text-align: center;
-}
-#status-bar .progressbar li::after {
-    content: '';
-    height: 20px;
-    width: 100%;
-    background-color: #B1E2E2;
-    position: absolute;
-    top: 7.5px;
-    left: -50%;
-    z-index: -1;
+    z-index: 9999;
+    cursor: pointer;
 }
 
 #status-bar .progressbar li.active::after {
     background-color: #358c35;
+}
+#status-bar .progressbar li:first-child::before {
+    width: 0;
 }
 #status-bar .progressbar li.active::before {
     background-color: #7eda7e;
@@ -116,8 +123,17 @@ table.booking-table th {
     background-color: #BADFBA;
 }
 table.booking-table tbody td {
-    background-color: #E4E4DE;
+    background-color: #8bea8b;
     cursor: pointer;
+}
+table.booking-table tbody td.booked {
+    background-color: #ff9cbc;
+}
+table.booking-table tbody td.chosen {
+    background-color: #ffe66d;
+}
+table.booking-table tbody td.choosing {
+    background-color: #ceea8b;
 }
 table.booking-table tbody tr.padding {
     height: 0.35rem;
@@ -334,4 +350,10 @@ div.input-group
 .finish button {
     margin-left: auto;
     margin-right: auto;
+}
+
+.hint {
+    color: #519451;
+    display: block;
+    text-align: center;
 }

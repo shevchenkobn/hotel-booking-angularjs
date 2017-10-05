@@ -190,6 +190,37 @@ let __suitesInfo = {
       "","29 Oct 2017"  
     ],
     "booked": [
-
+        {
+            type: 1,
+            storey: 3,
+            number: "325",
+            price: 400,
+            description: "A cosy room",
+            date: new Date("6 Oct 2017")
+        },
+        {
+            type: 1,
+            storey: 3,
+            number: "324",
+            price: 400,
+            description: "A cosy room",
+            date: new Date("6 Oct 2017")
+        },
+        {
+            type: 1,
+            storey: 3,
+            number: "325",
+            price: 400,
+            description: "A cosy room",
+            date: new Date("8 Oct 2017")
+        },
+        {
+            type: 1,
+            storey: 3,
+            number: "324",
+            price: 400,
+            description: "A cosy room",
+            date: new Date("7 Oct 2017")
+        },
     ]
 };
