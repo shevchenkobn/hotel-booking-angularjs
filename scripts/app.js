@@ -21,7 +21,13 @@ app.factory('Data', function($http) {
     }
     return obj;
 })
-.controller('mainController', function($scope, $window, Data, User) {
+// | filter : 'Floor: ' + filter.storey | filter : filter.byPriceRange
+.controller('mainController', function($scope, $window, $sce, Data, User) {
+    $scope.availableFloors = [''];
+    for (let i = 0; i < Data.rooms.length; i++)
+        if ($scope.availableFloors.indexOf(Data.rooms[i].storey) < 0)
+            $scope.availableFloors.push(Data.rooms[i].storey);
+    $scope.availableFloors.sort();
     $scope.stateEnum = {
         FORM: 1,
         ROOM: 2,
@@ -91,6 +97,7 @@ app.factory('Data', function($http) {
         return days[date.getDay()] + ", " + months[date.getMonth()] + " " + date.getDate() + " " + date.getFullYear();
     };
     $scope.rooms = data.rooms;
+    data.roomsTypes.push('');
     Object.defineProperty($scope, "roomTypes", {
         value: data.roomsTypes,
         writable: false
@@ -408,13 +415,25 @@ app.factory('Data', function($http) {
     {
         User.booked = bookedRooms;
         setState($scope.stateEnum.FINISH);
+        $scope.userInfo = $sce.trustAsHtml((function() {
+            let str = "<div><strong>Name: </strong>" + User.name + "</div>" + 
+            "<div><strong>Email: </strong>" + User.email + "</div><div><strong>Booked rooms:</strong><div>" + 
+            $scope.bookedDetails;
+            return str;
+        })());
     }
+
+    $scope.filters = {
+        type: '',
+        storey: '',
+        minPrice: '',
+        maxPrice: '',
+        byPriceRange: function(item) {
+            return !minPrice || !maxPrice && item.price >= this.minPrice && item.price <= this.maxPrice;
+        }
+    };
 
     //// FINISH
-
-    $scope.seeUser = function() {
-        return User;
-    }
 
     /**
      * Make function for adding user data to User

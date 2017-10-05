@@ -46,6 +46,28 @@
         </div>
         <div data-ng-show="getState() == stateEnum.ROOM">
             <div class="center-blocks container">
+                <!-- <div class="filters">
+                    <p>Apply filters:</p>
+                    <form>
+                        <div class="input-group">
+                            <label>Floor of the room:</label>
+                            <select data-ng-model="filters.floor">
+                                <option ng-repeat="option in availableFloors">{{ option }}</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Type of the room:</label>
+                            <select data-ng-model="filters.type">
+                                <option ng-repeat="option in roomTypes">{{ option }}</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Price limits:</label>
+                            <input type="number" step="1" min="1" data-ng-model="filters.minPrice">
+                            <input type="number" step="1" min="1" data-ng-model="filters.maxPrice">
+                        </div>
+                    </form>
+                </div> -->
                 <div class="table-wrap">
                     <table class="booking-table">
                         <thead>
@@ -98,9 +120,12 @@
                 <button class="small-nomargin" data-ng-disabled="!bookedCount()" data-ng-click="bookingFinish()">Next >></button>
             </div>
         </div>
-        <div data-ng-show="getState() == stateEnum.FINISH">
+        <div data-ng-show="getState() == stateEnum.FINISH" class="container finish">
             <h1 class="thank">Thank you for registration!</h1>
-            {{ seeUser() | json}}
+            
+            <div class="summary" ng-bind-html="userInfo">
+            </div>
+            <h2>Now you need to pay for that!</h2>
         </div>
     </body>
 </html>

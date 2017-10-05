@@ -10,6 +10,9 @@ body {
     padding: 0;
     margin: 0;
 }
+h2 {
+    font-size: 2rem;
+}
 
 
 .page-header {
@@ -160,7 +163,6 @@ table.booking-table tbody th:nth-child(1):hover {
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
 }
-
 .table-info {
     position: sticky;
     bottom: -5px;
@@ -284,8 +286,45 @@ div.input-group
     border-radius: 1rem;
 }
 
+
+.finish {
+    color: #8cbf8c;
+    text-align: center;
+}
+.finish div.summary{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
 .thank {
     font-family: GrandHotel;
-    color: #8cbf8c;
     font-size: 6rem;
+}
+
+.filters {
+    border: 3px solid #50EBFF;
+    background-color: #A8DDC9;
+    border-radius: 5px;
+    padding: 7px 7px 12px;
+    margin: 1rem;
+    color: #fff;
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.filters .input-group {
+    display: inline-block;
+    margin: 5px;
+}
+.filters * {
+    margin: 5px;
+}
+
+.filters input[type="number"] {
+    width: 6rem;
+}
+
+.summary div {
+    font-size: 150%;
+    text-align: left;
 }
