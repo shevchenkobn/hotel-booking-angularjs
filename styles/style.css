@@ -108,28 +108,29 @@ div.table-wrap div.padding {
 	height: 5.25rem;
     width: 8.15rem;
 	background: inherit;
-	border-width: 0;
+    border-width: 0;
+    order: 0;
 }
 div.table-wrap div.header-top-wrap {
 	width: calc(100% - 8.15rem);
 	height: 5.25rem;
 	overflow-y: hidden;
 	overflow-x: hidden;
-    flex: 1;
+    order: 1;
 }
 div.table-wrap div.header-left-wrap {
 	width: 8.15rem;
 	height: calc(100% - 5.25rem);
 	overflow-y: hidden;
 	overflow-x: hidden;
-    flex: 2;
+    order: 2;
 }
 div.table-wrap div.data-wrap {
 	overflow-x: auto;
 	overflow-y: auto;
     width: calc(100% - 8.15rem);
 	height: calc(100% - 5.25rem);
-    flex: 3;
+    order: 3;
 }
 
 div.table-wrap table {

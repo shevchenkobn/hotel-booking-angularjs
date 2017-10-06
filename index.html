@@ -52,17 +52,17 @@
                 </div> -->
                 <div class="table-wrap">
                     <div class="padding"></div>
-                    <div class="header-top-wrap">
+                    <div class="header-top-wrap scroll-left">
                         <table class="booking-table">
-                            <tbody class="scroll-left">
+                            <tbody>
                                 <tr>
                                     <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="header-left-wrap">
-                        <table class="header scroll-top">
+                    <div class="header-left-wrap scroll-top">
+                        <table class="header">
                             <tbody>
                                 <tr data-ng-repeat-start="room in rooms" class="padding"></tr>
                                 <tr data-ng-repeat-end>
@@ -82,9 +82,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="data-wrap">
+                    <div class="data-wrap scroll-top scroll-left">
                         <table class="booking-table">
-                            <tbody class="scroll-top scroll-left">
+                            <tbody>
                                 <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
                                 <tr data-ng-repeat-end>
                                     <td data-ng-repeat="date in dateRange"
