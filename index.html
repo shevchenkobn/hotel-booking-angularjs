@@ -51,38 +51,64 @@
                     </form>
                 </div> -->
                 <div class="table-wrap">
-                    <table class="booking-table">
-                        <thead class="sticker-top">
-                            <tr>
-                                <td><div class="cell-content"></div></td>
-                                <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
-                            <tr data-ng-repeat-end>
-                                <th>
-                                    <div class="cell-content"
-                                            tooltips
-                                            tooltip-side="right"
-                                            tooltip-template="{{ room.description }}"
-                                            tooltip-show-trigger="click mouseover"
-                                            tooltip-class="room-info">
-                                        <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
-                                        <div>Floor: {{ room.storey }}</div>
-                                        <span>{{ room.price }}$</span>
-                                    </div>
-                                </th>
-                                <td data-ng-repeat="date in dateRange"
-                                    data-ng-class="isBooked(room, date) ? 'booked' : ''"
-                                    data-ng-mousedown="mouseEventHandler(room, date, 'down', $event)"
-                                    data-ng-mousemove="mouseEventHandler(room, date, 'move', $event)"
-                                    data-ng-mouseup="mouseEventHandler(room, date, 'up', $event)">
-                                    <div class="cell-content noselect">{{ formatDate(date) }} </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="header-wrap">
+                        <table class="header">
+                            <thead>
+                                <tr><td><div class="cell-content"></div></td></tr>
+                            </thead>    
+                            <tbody>
+                                <tr data-ng-repeat-start="room in rooms" class="padding"></tr>
+                                <tr data-ng-repeat-end>
+                                    <th>
+                                        <div class="cell-content"
+                                                tooltips
+                                                tooltip-side="right"
+                                                tooltip-template="{{ room.description }}"
+                                                tooltip-show-trigger="click mouseover"
+                                                tooltip-class="room-info">
+                                            <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
+                                            <div>Floor: {{ room.storey }}</div>
+                                            <span>{{ room.price }}$</span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-table-wrap">
+                        <table class="booking-table">
+                            <thead class="sticker-top">
+                                <tr>
+                                    <td><div class="cell-content"></div></td>
+                                    <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
+                                <tr data-ng-repeat-end>
+                                    <th>
+                                        <div class="cell-content"
+                                                tooltips
+                                                tooltip-side="right"
+                                                tooltip-template="{{ room.description }}"
+                                                tooltip-show-trigger="click mouseover"
+                                                tooltip-class="room-info">
+                                            <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
+                                            <div>Floor: {{ room.storey }}</div>
+                                            <span>{{ room.price }}$</span>
+                                        </div>
+                                    </th>
+                                    <td data-ng-repeat="date in dateRange"
+                                        data-ng-class="isBooked(room, date) ? 'booked' : ''"
+                                        data-ng-mousedown="mouseEventHandler(room, date, 'down', $event)"
+                                        data-ng-mousemove="mouseEventHandler(room, date, 'move', $event)"
+                                        data-ng-mouseup="mouseEventHandler(room, date, 'up', $event)">
+                                        <div class="cell-content noselect">{{ formatDate(date) }} </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="table-info">
@@ -92,7 +118,7 @@
                         tooltips
                         tooltip-template="{{ bookedDetails }}"
                         tooltip-controller="mainController"
-                        tooltip-size="large"
+                        tooltip-side='top right'
                         tooltip-show-trigger="click"
                         tooltip-hide-trigger="click"
                         tooltip-class="booking-summary">

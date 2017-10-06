@@ -1,7 +1,3 @@
-// $(document).ready(function(){
-//     $(".sticker-top").sticky({topSpacing:3});
-//   });
-
 let app = angular.module('hotel-booking', ['720kb.tooltips'])
 .factory('Data', function($http) {
     // make an ajax request using $http
@@ -140,7 +136,8 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
             && item1.description == item2.description;
     }
     bookedRooms.compare = function(item1, item2) {
-        return data.rooms.compare(item1, item2) && item1.date.valueOf() == item2.date.valueOf();
+        return data.rooms.compare(item1, item2) && item1.date.getDate() == item2.date.getDate() &&
+            item1.date.getMonth() == item2.date.getMonth() && item1.date.getFullYear() == item2.date.getFullYear();
     };
     bookedRooms.indexOf = function(item)
     {
@@ -162,7 +159,6 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         SELECTED: $scope.selectedClass,
         BOOKED: $scope.bookedClass
     };
-    data.booked.isInit = false;
     data.booked.contains = function(room, date) {
         let item = this.makeBookingItem(room, date);
         for (let i = 0; i < this.length; i++)
