@@ -95,7 +95,7 @@ center-blocks {
     margin-right: auto;
 }
 div.container {
-    padding: 50px 50px 0;
+    padding: 0 50px;
 	height: 80%;
 }
 
@@ -282,7 +282,6 @@ input {
 
 button {
     background: #7ec3ff;
-    border-width: 0px;
     padding: 0.8rem 1.2rem;
     margin: 0.7rem;
     border-radius: 0.5rem;
@@ -294,6 +293,7 @@ button {
     cursor: pointer;
     display: block;
     margin-left: auto;
+    border: 2px solid #7ec3ff;
 }
 button.small-nomargin {
     padding: 0.5rem 0.8rem;
@@ -302,7 +302,7 @@ button.small-nomargin {
 }
 button:disabled {
     background: #adadad;
-    border: 2px solid #797979;
+    border-color: #797979;
     cursor: not-allowed;
 }
 

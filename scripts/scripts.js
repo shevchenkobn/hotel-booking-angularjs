@@ -1,8 +1,8 @@
 $(function() {
-  $(".scroll-top").on("scroll", function() {
-    $(".scroll-top").scrollTop($(this).scrollTop());
+  $(".scroll-top-src").on("scroll", function() {
+    $(".scroll-top-dest").scrollTop($(this).scrollTop());
   });
-  $(".scroll-left").on("scroll", function() {
-      $(".scroll-left").scrollLeft($(this).scrollLeft());
+  $(".scroll-left-src").on("scroll", function() {
+      $(".scroll-left-dest").scrollLeft($(this).scrollLeft());
   })
 });

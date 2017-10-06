@@ -48,7 +48,10 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
 			return viewState;
 		}
     });
-    $scope.goto = setState;
+    $scope.goto = function(state) {
+        if (viewState > state)
+            setState(state);
+    };
 
 
     //// BOOK
@@ -160,7 +163,7 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         BOOKED: $scope.bookedClass
     };
     data.booked.contains = function(room, date) {
-        let item = this.makeBookingItem(room, date);
+        let item = date ? this.makeBookingItem(room, date) : room;
         for (let i = 0; i < this.length; i++)
             if (this.compare(this[i], item))
                 return true;
@@ -172,7 +175,6 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
 
     let buttonPressed = false;
     let removing = false;
-    let exceeded = false;
     let temp = [];
     temp.originIndex = 0;
     temp.minIndex = 0;
@@ -203,15 +205,18 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
                     let index = Array.prototype.slice.call(cells).indexOf(getTdParent(e.srcElement));
                     if (index < 0)
                         return;
-                    let iterationStart, iterationEnd, startDate, increase = true, changeTempProps = function() {};
+                    let iterationStart, iterationEnd, startDate, addElementsToTemp = true, changeTempProps = function() {};
+                    let increasing = true;
                     if (index < temp.minIndex)
                     {
-                        if (exceeded)
-                            return;
-                        iterationStart = index;
-                        iterationEnd = temp.minIndex - 1;
-                        startDate = new Date(date);
-                        startDate.setDate(startDate.getDate() - 1);
+                        increasing = false;
+                        iterationStart =  temp.minIndex - 1;
+                        iterationEnd = index;
+                        startDate = new Date(temp[temp.originIndex].date);
+                        if (temp.minIndex == temp.originIndex)
+                            startDate.setDate(temp[temp.originIndex].date.getDate() - 1);
+                        else
+                            startDate.setDate(temp[temp.originIndex].date.getDate() - 2);
                         changeTempProps = function() { temp.minIndex = index; };
                     }
                     else if (index > temp.maxIndex)
@@ -219,62 +224,68 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
                         iterationStart = temp.maxIndex + 1;
                         iterationEnd = index;
                         startDate = new Date(temp[temp.maxIndex].date);
+                        startDate.setDate(startDate.getDate() + 1);
                         changeTempProps = function() { temp.maxIndex = index; };
                     }
                     else if (index > temp.minIndex && index <= temp.originIndex)
                     {
-                        exceeded = false;
-                        iterationStart = temp.minIndex;
-                        iterationEnd = index - 1;
-                        increase = false;
+                        increasing = false;
+                        iterationStart = index - 1;
+                        iterationEnd = temp.minIndex;
+                        addElementsToTemp = false;
                         changeTempProps = function() { temp.minIndex = index; };
                     }
                     else if (index >= temp.originIndex && index < temp.maxIndex)
                     {
                         iterationStart = index + 1;
                         iterationEnd = temp.maxIndex;
-                        increase = false;
+                        addElementsToTemp = false;
                         changeTempProps = function() { temp.maxIndex = index; }
                     }
                     if (!(iterationStart && iterationEnd))
                         return;
-                    if (increase)
-                    {
-                        for (let i = iterationStart, currDate = startDate; i <= iterationEnd; i++)
+                    console.log(temp, iterationStart, iterationEnd);
+                    let resume = true;
+                    function iteration(i, currDate) {
+                        if (addElementsToTemp)
                         {
                             if (cells[i].nodeName != "TD")
-                                continue;
+                                return false;
                             let d = new Date(currDate);
-                            d.setDate(d.getDate() + 1);
                             let item = bookedRooms.makeBookingItem(room, d);
-                            // if (removing)
-                            //     debugger;
-                            if (data.booked.contains(room, date) || removing && bookedRooms.indexOf(item) < 0 ||
+                            if (data.booked.contains(item) || removing && bookedRooms.indexOf(item) < 0 ||
                                 !removing && bookedRooms.indexOf(item) >= 0)
                             {
-                                exceeded = true;
                                 changeTempProps = function() {};
-                                break;
+                                resume = false;
+                                return false;
                             }
                             temp[i] = item;
                             mark(cells[i], ColoringEnum.SELECTING);
-                            currDate.setDate(currDate.getDate() + 1);
+                            return true;
+                        }
+                        else
+                        {
+                            if (cells[i].nodeName != "TD")
+                                return;
+                            delete temp[i];
+                            mark(cells[i], removing ? ColoringEnum.SELECTED : ColoringEnum.DEFAULT);
+                        }
+                    }
+                    if (increasing)
+                    {
+                        for (let i = iterationStart, currDate = startDate; resume && i <= iterationEnd; i++)
+                        {
+                            if (iteration(i, currDate))
+                                currDate.setDate(currDate.getDate() + 1);
                         }
                     }
                     else
                     {
-                        for (let i = iterationStart; i <= iterationEnd; i++)
+                        for (let i = iterationStart, currDate = startDate; resume && i >= iterationEnd; i--)
                         {
-                            if (cells[i].nodeName != "TD")
-                                continue;
-                            // if (data.booked.contains(room, date) || bookedRooms.indexOf(temp[i]) < 0)
-                            // {
-                            //     debugger;
-                            //     changeTempProps = function() {};
-                            //     break;
-                            // }
-                            delete temp[i];
-                            mark(cells[i], removing ? ColoringEnum.SELECTED : ColoringEnum.DEFAULT);
+                            if (iteration(i, currDate))
+                                currDate.setDate(currDate.getDate() - 1);
                         }
                     }
                     changeTempProps();
@@ -337,7 +348,6 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     $scope.bookedDetails = noBooked;
     function updateBookedDisplay()
     {
-        console.log(bookedRooms);
         if (bookedRooms.length == 0)
         {
             $scope.bookedDetails = $scope.bookedMsg = noBooked;
@@ -401,12 +411,6 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     {
         User.booked = bookedRooms;
         setState($scope.stateEnum.FORM);
-        $scope.userInfo = $sce.trustAsHtml((function() {
-            let str = "<div><strong>Name: </strong>" + User.name + "</div>" + 
-            "<div><strong>Email: </strong>" + User.email + "</div><div><strong>Booked rooms:</strong><div>" + 
-            $scope.bookedDetails;
-            return str;
-        })());
     }
 
     $scope.filters = {
@@ -424,10 +428,20 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     $scope.is18 = false;
     $scope.namePattern = /[A-Z]([a-zA-Z\-'])+/;
     $scope.formSubmit = function () {
-        User.name = $scope.name;
-        User.email = $scope.email;
-        setState($scope.stateEnum.FINISH);
+        User.data.name = $scope.name;
+        User.data.email = $scope.email;
+        displayFinalScreen();
     };
+    function displayFinalScreen()
+    {
+        $scope.userInfo = $sce.trustAsHtml((function() {
+            let str = "<div><strong>Name: </strong>" + User.data.name + "</div>" + 
+            "<div><strong>Email: </strong>" + User.data.email + "</div><div><strong>Booked rooms:</strong><div>" + 
+            $scope.bookedDetails;
+            return str;
+        })());
+        setState($scope.stateEnum.FINISH);
+    }
 
 
 

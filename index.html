@@ -22,7 +22,7 @@
         </div>
         <div id="status-bar">
             <ul class="progressbar">
-                <li data-ng-class="getState() >= prop ? 'active' : ''" data-ng-repeat="prop in stateEnum" data-ng-click="getState() > prop ? goto(prop) : ''"></li>
+                <li data-ng-class="getState() >= prop ? 'active' : ''" data-ng-repeat="prop in stateEnum" data-ng-click="goto(prop)"></li>
             </ul>
         </div>
         <h2 class="hint" data-ng-bind="hint"></h2>
@@ -52,7 +52,7 @@
                 </div> -->
                 <div class="table-wrap">
                     <div class="padding"></div>
-                    <div class="header-top-wrap scroll-left">
+                    <div class="header-top-wrap scroll-left-dest">
                         <table class="booking-table">
                             <tbody>
                                 <tr>
@@ -61,7 +61,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="header-left-wrap scroll-top">
+                    <div class="header-left-wrap scroll-top-dest">
                         <table class="header">
                             <tbody>
                                 <tr data-ng-repeat-start="room in rooms" class="padding"></tr>
@@ -82,7 +82,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="data-wrap scroll-top scroll-left">
+                    <div class="data-wrap scroll-top-src scroll-left-src">
                         <table class="booking-table">
                             <tbody>
                                 <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
@@ -121,12 +121,12 @@
                     <div class="input-group">
                         <label for="name">Full name:</label>
                         <input id="name" name="name" type="text" data-ng-model="name" data-ng-pattern="namePattern" required />
-                        <span class="warning" data-ng-show="user.name.$touched && user.name.$invalid">Please, enter your name</span>
+                        <span class="warning" data-ng-show="user.name.$touched && user.name.$invalid">Start name with capital letter</span>
                     </div>
                     <div class="input-group">
                         <label for="email">Email:</label>
                         <input id="email" name="email" type="email" data-ng-model="email" required />
-                        <span class="warning" data-ng-show="user.email.$touched && user.email.$invalid">Please, enter valid email</span>
+                        <span class="warning" data-ng-show="user.email.$touched && user.email.$invalid">Please, enter a valid email</span>
                     </div>
                     <div class="input-group">
                         <label style="display: inline-block"> I am 18 already: <input type="checkbox" data-ng-model="is18" required></label>
