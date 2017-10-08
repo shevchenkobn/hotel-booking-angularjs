@@ -21,6 +21,38 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     }
     return obj;
 })
+.directive('bindElementItem', function() {
+    return {
+        restrict: "A",
+        link: function(scope, element, attr) {
+            scope.bindItemToElement(element, scope.room, scope.date);
+        }
+    };
+})
+.directive('setDataTableWrap', function() {
+    return {
+        restrict: "A",
+        link: function(scope, element, attr) {
+            scope.dataTableWrap = element;
+        }
+    };
+})
+.directive('enterPressExec', function() {
+    return {
+        restrict: "A",
+        link: function (scope, element, attrs) {
+            element.bind("keydown keypress", function ($event) {
+                if(event.which === 13) {
+                    scope.$apply(function (){
+                        scope.$eval(attrs.enterPressExec, $event);
+                    });
+    
+                    event.preventDefault();
+                }
+            });
+        }
+    };
+})
 // | filter : 'Floor: ' + filter.storey | filter : filter.byPriceRange
 .controller('mainController', function($scope, $window, $sce, Data, User) {
     $scope.availableFloors = [''];
@@ -48,8 +80,11 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
 			return viewState;
 		}
     });
+    let registrationFinished = false;
     $scope.goto = function(state) {
-        if (viewState > state)
+        if (registrationFinished || state == $scope.stateEnum.FINISH)
+            registrationFinished = true;
+        if (registrationFinished || viewState > state)
             setState(state);
     };
 
@@ -105,6 +140,11 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         Object.assign(item, room);
         item.date = date;
         return item;
+    };
+    $scope.bindItemToElement = function (element, room, date)
+    {
+        let item = bookedRooms.makeBookingItem(room, date);
+        $(element).data("item", item);
     };
     bookedRooms.tryAdd = function(room, date)
     {
@@ -180,7 +220,19 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     temp.minIndex = 0;
     temp.maxIndex = 0;
     let cells;
-    $scope.mouseEventHandler = function(room, date, type, event)
+    $scope.dataTableWrap = null;
+    $scope.mouseMove = function(e)
+    {
+        if (!(buttonPressed && $scope.dataTableWrap))
+            return;
+        let table = $($scope.dataTableWrap);
+        let xPointerPos = e.pageX - table.offset().left;
+        if (xPointerPos < 0)
+            table.scrollLeft(table.scrollLeft() + xPointerPos / 5);
+        else if(xPointerPos > table.width())
+            table.scrollLeft(table.scrollLeft() + xPointerPos / 120);
+    }
+    $scope.mouseEventHandler = function(type, event)
     {
         if (event.originalEvent)
             event = event.originalEvent;
@@ -189,8 +241,8 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
                 if (buttonPressed)
                     return;
                 let td = getTdParent(e.srcElement);
-                let item = bookedRooms.makeBookingItem(room, date);
-                if (data.booked.contains(room, date))
+                let item = $(td).data("item");
+                if (data.booked.contains(item))
                     return;
                 cells = td.parentNode.childNodes;
                 temp.originIndex = temp.maxIndex = temp.minIndex = Array.prototype.slice.call(cells).indexOf(td);
@@ -210,21 +262,14 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
                     if (index < temp.minIndex)
                     {
                         increasing = false;
-                        iterationStart =  temp.minIndex - 1;
+                        iterationStart = temp.minIndex - 1;
                         iterationEnd = index;
-                        startDate = new Date(temp[temp.originIndex].date);
-                        if (temp.minIndex == temp.originIndex)
-                            startDate.setDate(temp[temp.originIndex].date.getDate() - 1);
-                        else
-                            startDate.setDate(temp[temp.originIndex].date.getDate() - 2);
                         changeTempProps = function() { temp.minIndex = index; };
                     }
                     else if (index > temp.maxIndex)
                     {
                         iterationStart = temp.maxIndex + 1;
                         iterationEnd = index;
-                        startDate = new Date(temp[temp.maxIndex].date);
-                        startDate.setDate(startDate.getDate() + 1);
                         changeTempProps = function() { temp.maxIndex = index; };
                     }
                     else if (index > temp.minIndex && index <= temp.originIndex)
@@ -244,20 +289,15 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
                     }
                     if (!(iterationStart && iterationEnd))
                         return;
-                    console.log(temp, iterationStart, iterationEnd);
-                    let resume = true;
-                    function iteration(i, currDate) {
+                    function iteration(i, currDate, check = true) {
                         if (addElementsToTemp)
                         {
                             if (cells[i].nodeName != "TD")
-                                return false;
-                            let d = new Date(currDate);
-                            let item = bookedRooms.makeBookingItem(room, d);
-                            if (data.booked.contains(item) || removing && bookedRooms.indexOf(item) < 0 ||
-                                !removing && bookedRooms.indexOf(item) >= 0)
+                                return true;
+                            let item = $(cells[i]).data("item");
+                            if (check && (data.booked.contains(item) || removing && bookedRooms.indexOf(item) < 0 ||
+                                !removing && bookedRooms.indexOf(item) >= 0))
                             {
-                                changeTempProps = function() {};
-                                resume = false;
                                 return false;
                             }
                             temp[i] = item;
@@ -267,25 +307,26 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
                         else
                         {
                             if (cells[i].nodeName != "TD")
-                                return;
+                                return true;
                             delete temp[i];
                             mark(cells[i], removing ? ColoringEnum.SELECTED : ColoringEnum.DEFAULT);
+                            return true;
                         }
                     }
                     if (increasing)
                     {
-                        for (let i = iterationStart, currDate = startDate; resume && i <= iterationEnd; i++)
+                        for (let i = iterationStart; i <= iterationEnd; i++)
                         {
-                            if (iteration(i, currDate))
-                                currDate.setDate(currDate.getDate() + 1);
+                            if (!iteration(i))
+                                return;
                         }
                     }
                     else
                     {
-                        for (let i = iterationStart, currDate = startDate; resume && i >= iterationEnd; i--)
+                        for (let i = iterationStart; i >= iterationEnd; i--)
                         {
-                            if (iteration(i, currDate))
-                                currDate.setDate(currDate.getDate() - 1);
+                            if (!iteration(i))
+                                return;
                         }
                     }
                     changeTempProps();
@@ -432,6 +473,9 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         User.data.email = $scope.email;
         displayFinalScreen();
     };
+    $scope.enterPressed = function(e) {
+        console.log(e);
+    }
     function displayFinalScreen()
     {
         $scope.userInfo = $sce.trustAsHtml((function() {

@@ -196,7 +196,7 @@ let __suitesInfo = {
             number: "325",
             price: 400,
             description: "A cosy room",
-            date: new Date("8 Oct 2017")
+            date: new Date("11 Oct 2017")
         },
         {
             type: 1,
@@ -204,7 +204,7 @@ let __suitesInfo = {
             number: "324",
             price: 400,
             description: "A cosy room",
-            date: new Date("10 Oct 2017")
+            date: new Date("13 Oct 2017")
         },
         {
             type: 1,
@@ -212,7 +212,7 @@ let __suitesInfo = {
             number: "325",
             price: 400,
             description: "A cosy room",
-            date: new Date("7 Oct 2017")
+            date: new Date("10 Oct 2017")
         },
         {
             type: 1,
@@ -220,7 +220,7 @@ let __suitesInfo = {
             number: "324",
             price: 400,
             description: "A cosy room",
-            date: new Date("9 Oct 2017")
+            date: new Date("12 Oct 2017")
         },
     ]
 };

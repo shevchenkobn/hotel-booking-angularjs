@@ -132,7 +132,6 @@ div.table-wrap div.data-wrap {
 	height: calc(100% - 5.25rem);
     order: 3;
 }
-
 div.table-wrap table {
     border-spacing: 0rem;
 }
@@ -162,6 +161,9 @@ div.table-wrap table.header-left thead tr td div.cell-content {
 div.table-wrap div.header-top-wrap table tbody th {
     background-color: #B1E2E2;
 }
+div.table-wrap div.header-top-wrap table {
+    padding-right: 100px;
+}
 div.table-wrap div.header-top-wrap table tbody tr:nth-child(1) th:nth-child(1) {
     border-radius: 0.7rem 0 0 0;
 }
@@ -171,6 +173,9 @@ div.table-wrap div.header-top-wrap table tbody tr:nth-child(1) th:nth-last-child
 
 div.table-wrap div.header-left-wrap table tbody th {
     background-color: #C7EEC7;
+}
+div.table-wrap div.header-left-wrap table {
+    padding-bottom: 100px;
 }
 div.table-wrap div.header-left-wrap table tbody tr:nth-child(2) th {
     border-radius: 0.7rem 0 0 0;
