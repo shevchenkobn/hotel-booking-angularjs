@@ -191,16 +191,18 @@ table.booking-table tbody tr:nth-last-child(1) td:nth-last-child(1) {
     border-radius: 0 0 0.7rem 0;
 }
 table.booking-table tbody td {
-    background-color: #8bea8b;
     cursor: pointer;
 }
-table.booking-table tbody td.booked {
+.default {
+    background-color: #8bea8b;
+}
+.booked {
     background-color: #ff9cbc;
 }
-table.booking-table tbody td.chosen {
+.chosen {
     background-color: #ffe66d;
 }
-table.booking-table tbody td.choosing {
+.choosing {
     background-color: #ceea8b;
 }
 table.booking-table tbody th div.cell-content {
@@ -233,6 +235,18 @@ table.booking-table tbody th div.cell-content {
 }
 .table-info .color-info {
     font-weight: bold;
+}
+.color-pattern {
+    width: 1.6rem;
+    height: 1.2rem;
+    display: inline-block;
+    border: 2px solid #FFF;
+    border-radius: 3px;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+}
+.colors-info-tooltip {
+    width: 15rem;
 }
 .table-info .delim {
     display: inline-block;

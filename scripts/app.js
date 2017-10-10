@@ -42,12 +42,16 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         restrict: "A",
         link: function (scope, element, attrs) {
             element.bind("keydown keypress", function ($event) {
+                $event._preventDefault = true;
                 if(event.which === 13) {
                     scope.$apply(function (){
-                        scope.$eval(attrs.enterPressExec, $event);
+                        scope.$eval(attrs.enterPressExec, { $event: $event });
                     });
-    
-                    event.preventDefault();
+
+                    if (!$event._preventDefault)
+                        debugger;
+                    if ($event._preventDefault)
+                        $event.preventDefault();
                 }
             });
         }
@@ -73,23 +77,21 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         $window.scrollTo(0, 0);
     }
     setState($scope.stateEnum.ROOM);
-    $scope.hint;
     Object.defineProperty($scope, 'getState', {
 		writable: false,
 		value: function() {
 			return viewState;
 		}
     });
-    let registrationFinished = false;
     $scope.goto = function(state) {
-        if (registrationFinished || state == $scope.stateEnum.FINISH)
-            registrationFinished = true;
-        if (registrationFinished || viewState > state)
+        if (viewState > state)
             setState(state);
     };
 
 
     //// BOOK
+
+
     const data = Data;
     const noBooked = "You haven't booked anything yet.";
     const totalMsg = ["Total sum: ", "$."];
@@ -108,7 +110,7 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
             firstDate.setDate(firstDate.getDate() + 1);
         }
 
-        for (var i = firstDate; i <= lastDate; i.setDate(i.getDate() + 1))
+        for (let i = firstDate; i <= lastDate; i.setDate(i.getDate() + 1))
         {
             dateRange.push(new Date(i.getTime()));
         }
@@ -173,11 +175,11 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         else
             this.pop();
         return true;
-    }
+    };
     data.rooms.compare = function(item1, item2) {
         return item1.type == item2.type && item1.storey == item2.storey && item1.number == item2.number && item1.price == item2.price
             && item1.description == item2.description;
-    }
+    };
     bookedRooms.compare = function(item1, item2) {
         return data.rooms.compare(item1, item2) && item1.date.getDate() == item2.date.getDate() &&
             item1.date.getMonth() == item2.date.getMonth() && item1.date.getFullYear() == item2.date.getFullYear();
@@ -195,13 +197,17 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     $scope.selectingClass = 'choosing';    
     $scope.selectedClass = 'chosen';
     $scope.bookedClass = 'booked';
-    $scope.defaultClass = '';
+    $scope.defaultClass = 'default';
     const ColoringEnum = {
         DEFAULT: $scope.defaultClass,
         SELECTING: $scope.selectingClass,
         SELECTED: $scope.selectedClass,
         BOOKED: $scope.bookedClass
     };
+    $scope.colorPatternClass = "color-pattern";
+    $scope.colorsInfo = "<div>Free: <span class='"+$scope.colorPatternClass +" "+ColoringEnum.DEFAULT+"'></span></div>" +
+        "<div>Occupied: <span class='"+$scope.colorPatternClass +" "+ColoringEnum.BOOKED+"'></span></div>" +
+        "<div>Chosen by user: <span class='"+$scope.colorPatternClass +" "+ColoringEnum.SELECTED+"'></span></div>";
     data.booked.contains = function(room, date) {
         let item = date ? this.makeBookingItem(room, date) : room;
         for (let i = 0; i < this.length; i++)
@@ -231,7 +237,7 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
             table.scrollLeft(table.scrollLeft() + xPointerPos / 5);
         else if(xPointerPos > table.width())
             table.scrollLeft(table.scrollLeft() + xPointerPos / 120);
-    }
+    };
     $scope.mouseEventHandler = function(type, event)
     {
         if (event.originalEvent)
@@ -384,7 +390,7 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
             }
             return el;
         }
-    }
+    };
     $scope.bookedMsg = noBooked;
     $scope.bookedDetails = noBooked;
     function updateBookedDisplay()
@@ -447,12 +453,12 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     $scope.bookedCount = function()
     {
         return bookedRooms.length;
-    }
+    };
     $scope.bookingFinish = function()
     {
         User.booked = bookedRooms;
         setState($scope.stateEnum.FORM);
-    }
+    };
 
     $scope.filters = {
         type: '',
@@ -474,8 +480,27 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         displayFinalScreen();
     };
     $scope.enterPressed = function(e) {
-        console.log(e);
-    }
+        let controls = $(e.target.form).find(":input, :button"), found = false;
+        for (let i = 0; i < controls.length; i++)
+        {
+            let elem = $(controls[i]);
+            if (controls[i] == e.target)
+            {
+                found = true;
+                if (elem.attr('type') == 'checkbox' && controls[i].checked == false)
+                    elem.click();
+                continue;
+            }
+            if (found)
+            {
+                if (elem.attr('type') == 'submit' || controls[i].tagName == "BUTTON")
+                {
+                    e._preventDefault = false;
+                }
+                return controls[i].focus();
+            }
+        }
+    };
     function displayFinalScreen()
     {
         $scope.userInfo = $sce.trustAsHtml((function() {

@@ -13,6 +13,7 @@
         <script type="text/javascript" src="./scripts/dummy-data.js"></script>
         <script type="text/javascript" src="./scripts/scripts.js"></script>
         <script src="./scripts/app.js"></script>
+        <!-- https://github.com/vesparny/angular-fancy-modal/tree/master/dist-->
         <title>Hotel booking</title>
     </head>
     <body data-ng-app="hotel-booking" data-ng-controller="mainController" data-ng-mousemove="mouseMove($event)">
@@ -67,13 +68,8 @@
                                 <tr data-ng-repeat-start="room in rooms" class="padding"></tr>
                                 <tr data-ng-repeat-end>
                                     <th>
-                                        <div class="cell-content"
-                                                tooltips
-                                                tooltip-side="right"
-                                                tooltip-template="{{ room.description }}"
-                                                tooltip-show-trigger="click mouseover"
-                                                tooltip-class="room-info">
-                                            <div><big></big>{{ roomTypes[room.type] }}</big><small> #{{ room.number }}</small></div>
+                                        <div class="cell-content">
+                                            <div><strong>{{ roomTypes[room.type] }}</strong><small> #{{ room.number }}</small></div>
                                             <div>Floor: {{ room.storey }}</div>
                                             <div>{{ room.price }}$</div>
                                         </div>
@@ -87,7 +83,8 @@
                             <tbody>
                                 <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
                                 <tr data-ng-repeat-end>
-                                    <td data-ng-repeat="date in dateRange"
+                                    <td class="default"
+                                        data-ng-repeat="date in dateRange"
                                         data-ng-class="isBooked(room, date) ? 'booked' : ''"
                                         bind-element-item
                                         data-ng-mousedown="mouseEventHandler('down', $event)"
@@ -102,23 +99,35 @@
                 </div>
             </div>
             <div class="table-info">
+                <span class="color-info">Colors info:</span>
                 <img class="details-icon"
-                        src="./images/questionmark-icon.png"
-                        alt="?, details"
-                        tooltips
-                        tooltip-template="{{ bookedDetails }}"
-                        tooltip-controller="mainController"
-                        tooltip-side='top right'
-                        tooltip-show-trigger="click"
-                        tooltip-hide-trigger="click"
-                        tooltip-class="booking-summary">
+                     src="./images/questionmark-icon.png"
+                     alt="?, details"
+                     tooltips
+                     tooltip-template="{{ colorsInfo }}"
+                     tooltip-controller="mainController"
+                     tooltip-side='top right'
+                     tooltip-show-trigger="click"
+                     tooltip-hide-trigger="click"
+                     tooltip-class="colors-info-tooltip">
+                <span class="delim"></span>
                 <span class="booked-info" data-ng-bind="bookedMsg"></span>
+                <img class="details-icon"
+                     src="./images/questionmark-icon.png"
+                     alt="?, details"
+                     tooltips
+                     tooltip-template="{{ bookedDetails }}"
+                     tooltip-controller="mainController"
+                     tooltip-side='top right'
+                     tooltip-show-trigger="click"
+                     tooltip-hide-trigger="click"
+                     tooltip-class="booking-summary">
                 <button class="small-nomargin" data-ng-disabled="!bookedCount()" data-ng-click="bookingFinish()">Next >></button>
             </div>
         </div>
         <div class="container" data-ng-show="getState() == stateEnum.FORM" class="center-blocks">
             <div class="panel">
-                <form name="user">
+                <form name="user" id="user">
                     <div class="input-group">
                         <label for="name">Full name:</label>
                         <input enter-press-exec="enterPressed($event)" id="name" name="name" type="text" data-ng-model="name" data-ng-pattern="namePattern" required />
@@ -135,7 +144,7 @@
                         </label>
                         <span class="warning" data-ng-show="user.email.$touched && !is18">You should be 18 to proceed</span>
                     </div>
-                    <button data-ng-click="formSubmit()" data-ng-disabled="user.$invalid">Next >></button>
+                    <button data-ng-click="formSubmit()" enter-press-exec="enterPressed($event)" data-ng-disabled="user.$invalid">Next >></button>
                 </form>
             </div>
         </div>
