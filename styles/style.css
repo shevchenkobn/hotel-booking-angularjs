@@ -89,7 +89,7 @@ h2 {
     background-color: #7eda7e;
 }
 
-center-blocks {
+.center-blocks {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -103,6 +103,7 @@ div.table-wrap {
     display: flex;
 	flex-wrap: wrap;
 	height: 100%;
+    width: 100%;
 }
 div.table-wrap div.padding {
 	height: 5.25rem;
@@ -282,6 +283,9 @@ table.booking-table tbody th div.cell-content {
     text-align: left;
     overflow-y: auto;
 }
+.booking-summary img {
+    width: 80%;
+}
 .room-info {
     min-width: 20rem;
 }
@@ -409,4 +413,8 @@ div.input-group
     color: #519451;
     display: block;
     text-align: center;
+}
+
+.fancymodal-data img {
+    width: 80%;
 }

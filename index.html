@@ -13,6 +13,10 @@
         <script type="text/javascript" src="./scripts/dummy-data.js"></script>
         <script type="text/javascript" src="./scripts/scripts.js"></script>
         <script src="./scripts/app.js"></script>
+        <script src="./scripts/angular-fancy-modal.min.js"></script>
+        <link href="./styles/angular-fancy-modal.min.css" rel="stylesheet" type="text/css">
+        <link href="./styles/angular-fancy-modal-theme-classic.min.css" rel="stylesheet" type="text/css">
+
         <!-- https://github.com/vesparny/angular-fancy-modal/tree/master/dist-->
         <title>Hotel booking</title>
     </head>
@@ -29,19 +33,19 @@
         <h2 class="hint" data-ng-bind="hint"></h2>
         <div data-ng-show="getState() == stateEnum.ROOM">
             <div class="center-blocks container">
-                <!-- <div class="filters">
+                <div class="filters">
                     <p>Apply filters:</p>
                     <form>
                         <div class="input-group">
                             <label>Floor of the room:</label>
-                            <select data-ng-model="filters.floor">
+                            <select data-ng-model="filters.sample.storey">
                                 <option ng-repeat="option in availableFloors">{{ option }}</option>
                             </select>
                         </div>
                         <div class="input-group">
                             <label>Type of the room:</label>
-                            <select data-ng-model="filters.type">
-                                <option ng-repeat="option in roomTypes">{{ option }}</option>
+                            <select data-ng-model="filters.sample.type">
+                                <option ng-repeat="(key, name) in roomTypes" value="{{ key }}">{{ name }}</option>
                             </select>
                         </div>
                         <div class="input-group">
@@ -50,7 +54,7 @@
                             <input type="number" step="1" min="1" data-ng-model="filters.maxPrice">
                         </div>
                     </form>
-                </div> -->
+                </div>
                 <div class="table-wrap">
                     <div class="padding"></div>
                     <div class="header-top-wrap scroll-left-dest">
@@ -65,10 +69,11 @@
                     <div class="header-left-wrap scroll-top-dest">
                         <table>
                             <tbody>
-                                <tr data-ng-repeat-start="room in rooms" class="padding"></tr>
+                                <tr data-ng-repeat-start="room in rooms | filter : filters.sample | filter : filters.byPriceRange()" class="padding"></tr>
                                 <tr data-ng-repeat-end>
                                     <th>
-                                        <div class="cell-content">
+                                        <div class="cell-content"
+                                             ng-click="showInfo(room.description)">
                                             <div><strong>{{ roomTypes[room.type] }}</strong><small> #{{ room.number }}</small></div>
                                             <div>Floor: {{ room.storey }}</div>
                                             <div>{{ room.price }}$</div>
@@ -81,7 +86,7 @@
                     <div class="data-wrap scroll-top-src scroll-left-src" set-data-table-wrap>
                         <table class="booking-table">
                             <tbody>
-                                <tr class="padding" data-ng-repeat-start="room in rooms"></tr>
+                                <tr class="padding" data-ng-repeat-start="room in rooms | filter : filters.sample"></tr>
                                 <tr data-ng-repeat-end>
                                     <td class="default"
                                         data-ng-repeat="date in dateRange"
@@ -90,7 +95,7 @@
                                         data-ng-mousedown="mouseEventHandler('down', $event)"
                                         data-ng-mousemove="mouseEventHandler('move', $event)"
                                         data-ng-mouseup="mouseEventHandler('up', $event)">
-                                        <div class="cell-content noselect">{{ formatDate(date) }} </div>
+                                        <div class="cell-content noselect">{{formatDate(date)}}</div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -118,7 +123,7 @@
                      tooltips
                      tooltip-template="{{ bookedDetails }}"
                      tooltip-controller="mainController"
-                     tooltip-side='top right'
+                     tooltip-side='top'
                      tooltip-show-trigger="click"
                      tooltip-hide-trigger="click"
                      tooltip-class="booking-summary">

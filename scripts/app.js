@@ -1,4 +1,4 @@
-let app = angular.module('hotel-booking', ['720kb.tooltips'])
+let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModal'])
 .factory('Data', function($http) {
     // make an ajax request using $http
     return __suitesInfo;
@@ -58,11 +58,12 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     };
 })
 // | filter : 'Floor: ' + filter.storey | filter : filter.byPriceRange
-.controller('mainController', function($scope, $window, $sce, Data, User) {
+.controller('mainController', function($scope, $window, $fancyModal, $sce, Data, User) {
     $scope.availableFloors = [''];
     for (let i = 0; i < Data.rooms.length; i++)
         if ($scope.availableFloors.indexOf(Data.rooms[i].storey) < 0)
             $scope.availableFloors.push(Data.rooms[i].storey);
+    $scope.availableFloors[undefined] = undefined;
     $scope.availableFloors.sort();
     $scope.stateEnum = {
         ROOM: 1,
@@ -91,6 +92,9 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
 
     //// BOOK
 
+    $scope.showInfo = function(info) {
+        $fancyModal.open({ template: '<div>' + info + '</div>' });
+    };
 
     const data = Data;
     const noBooked = "You haven't booked anything yet.";
@@ -128,7 +132,6 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
         return days[date.getDay()] + ", " + months[date.getMonth()] + " " + date.getDate() + " " + date.getFullYear();
     };
     $scope.rooms = data.rooms;
-    data.roomsTypes.push('');
     Object.defineProperty($scope, "roomTypes", {
         value: data.roomsTypes,
         writable: false
@@ -461,12 +464,15 @@ let app = angular.module('hotel-booking', ['720kb.tooltips'])
     };
 
     $scope.filters = {
-        type: '',
-        storey: '',
-        minPrice: '',
-        maxPrice: '',
-        byPriceRange: function(item) {
-            return !minPrice || !maxPrice && item.price >= this.minPrice && item.price <= this.maxPrice;
+        sample: {},
+        minPrice: undefined,
+        maxPrice: undefined,
+        byPriceRange: function() {
+            if (!this.minPrice)
+                minPrice = Number.MIN_VALUE;
+            if (!this.maxPrice)
+                maxPrice = Number.MAX_VALUE;
+            return function(item) { return !minPrice || !maxPrice && item.price >= this.minPrice && item.price <= this.maxPrice; };
         }
     };
     //// FORM 
