@@ -59,12 +59,6 @@ let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModa
 })
 // | filter : 'Floor: ' + filter.storey | filter : filter.byPriceRange
 .controller('mainController', function($scope, $window, $fancyModal, $sce, Data, User) {
-    $scope.availableFloors = [''];
-    for (let i = 0; i < Data.rooms.length; i++)
-        if ($scope.availableFloors.indexOf(Data.rooms[i].storey) < 0)
-            $scope.availableFloors.push(Data.rooms[i].storey);
-    $scope.availableFloors[undefined] = undefined;
-    $scope.availableFloors.sort();
     $scope.stateEnum = {
         ROOM: 1,
         FORM: 2,
@@ -468,13 +462,21 @@ let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModa
         minPrice: undefined,
         maxPrice: undefined,
         byPriceRange: function() {
-            if (!this.minPrice)
-                minPrice = Number.MIN_VALUE;
-            if (!this.maxPrice)
-                maxPrice = Number.MAX_VALUE;
-            return function(item) { return !minPrice || !maxPrice && item.price >= this.minPrice && item.price <= this.maxPrice; };
+            return (item) => !this.minPrice || !this.maxPrice || item.price >= this.minPrice && item.price <= this.maxPrice;
         }
     };
+
+    $scope.availableFloors = [];
+    $scope.filters.minPrice = Number.MAX_VALUE;
+    $scope.filters.maxPrice = Number.MIN_VALUE;
+    for (let i = 0; i < Data.rooms.length; i++)
+    {
+        $scope.filters.minPrice = Math.min(Data.rooms[i].price, $scope.filters.minPrice);
+        $scope.filters.maxPrice = Math.max(Data.rooms[i].price, $scope.filters.maxPrice);
+        if ($scope.availableFloors.indexOf(Data.rooms[i].storey) < 0)
+            $scope.availableFloors.push(Data.rooms[i].storey);
+    }
+    $scope.availableFloors.sort();
     //// FORM 
     $scope.name = "";
     $scope.email = "";

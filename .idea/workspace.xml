@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="feba67b4-dae6-437b-88ef-b4dc89123d4a" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/angular-fancy-modal-theme-classic.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/angular-fancy-modal.min.css" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/app.js" afterPath="$PROJECT_DIR$/scripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dummy-data.js" afterPath="$PROJECT_DIR$/scripts/dummy-data.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/style.css" afterPath="$PROJECT_DIR$/styles/style.css" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,8 +22,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="71" column="131" lean-forward="false" selection-start-line="71" selection-start-column="131" selection-end-line="71" selection-end-column="131" />
+            <state relative-caret-position="164">
+              <caret line="41" column="64" lean-forward="false" selection-start-line="41" selection-start-column="64" selection-end-line="41" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -35,8 +32,8 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/styles/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2390">
-              <caret line="104" column="16" lean-forward="false" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="16" />
+            <state relative-caret-position="457">
+              <caret line="379" column="13" lean-forward="false" selection-start-line="379" selection-start-column="13" selection-end-line="379" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -45,8 +42,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="474" column="131" lean-forward="false" selection-start-line="474" selection-start-column="131" selection-end-line="474" selection-end-column="131" />
+            <state relative-caret-position="2429">
+              <caret line="468" column="30" lean-forward="false" selection-start-line="468" selection-start-column="30" selection-end-line="468" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -55,7 +52,7 @@
       <file leaf-file-name="dummy-data.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/dummy-data.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3757">
+            <state relative-caret-position="896">
               <caret line="221" column="70" lean-forward="false" selection-start-line="221" selection-start-column="70" selection-end-line="221" selection-end-column="70" />
               <folding />
             </state>
@@ -84,7 +81,10 @@
       <find>table-wra</find>
       <find>table-w</find>
       <find>66</find>
+      <find>minPri</find>
+      <find>roomTypes</find>
       <find>filters</find>
+      <find>[unde</find>
     </findStrings>
     <replaceStrings>
       <replace>'A cosy room&lt;div&gt;&lt;img src=&quot;./images/image.jpg&quot;&gt;&lt;/div&gt;'</replace>
@@ -138,6 +138,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -164,7 +165,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -200,12 +200,13 @@
       <updated>1507615123287</updated>
       <workItem from="1507615126935" duration="10373000" />
       <workItem from="1507654863436" duration="2186000" />
-      <workItem from="1507700780049" duration="4768000" />
+      <workItem from="1507700780049" duration="4942000" />
+      <workItem from="1507793825942" duration="2363000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17327000" />
+    <option name="totallyTimeSpent" value="19864000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
@@ -240,6 +241,38 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1207">
+          <caret line="71" column="131" lean-forward="false" selection-start-line="71" selection-start-column="131" selection-end-line="71" selection-end-column="131" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1768">
+          <caret line="104" column="16" lean-forward="false" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/dummy-data.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3757">
+          <caret line="221" column="70" lean-forward="false" selection-start-line="221" selection-start-column="70" selection-end-line="221" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8058">
+          <caret line="474" column="131" lean-forward="false" selection-start-line="474" selection-start-column="131" selection-end-line="474" selection-end-column="131" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1275">
@@ -296,34 +329,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/dummy-data.js">
+    <entry file="file://$PROJECT_DIR$/styles/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3757">
-          <caret line="221" column="70" lean-forward="false" selection-start-line="221" selection-start-column="70" selection-end-line="221" selection-end-column="70" />
+        <state relative-caret-position="457">
+          <caret line="379" column="13" lean-forward="false" selection-start-line="379" selection-start-column="13" selection-end-line="379" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/styles/style.css">
+    <entry file="file://$PROJECT_DIR$/scripts/dummy-data.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2390">
-          <caret line="104" column="16" lean-forward="false" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="16" />
+        <state relative-caret-position="896">
+          <caret line="221" column="70" lean-forward="false" selection-start-line="221" selection-start-column="70" selection-end-line="221" selection-end-column="70" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="71" column="131" lean-forward="false" selection-start-line="71" selection-start-column="131" selection-end-line="71" selection-end-column="131" />
+        <state relative-caret-position="164">
+          <caret line="41" column="64" lean-forward="false" selection-start-line="41" selection-start-column="64" selection-end-line="41" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="474" column="131" lean-forward="false" selection-start-line="474" selection-start-column="131" selection-end-line="474" selection-end-column="131" />
+        <state relative-caret-position="2429">
+          <caret line="468" column="30" lean-forward="false" selection-start-line="468" selection-start-column="30" selection-end-line="468" selection-end-column="30" />
           <folding />
         </state>
       </provider>

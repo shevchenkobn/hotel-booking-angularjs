@@ -377,7 +377,7 @@ div.input-group
     margin: 5px;
 }
 .filters * {
-    margin: 5px;
+    margin: 0;
 }
 
 .filters input[type="number"] {
