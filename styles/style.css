@@ -96,13 +96,12 @@ h2 {
 }
 div.container {
     padding: 0 50px;
-	height: 80%;
 }
 
 div.table-wrap {
     display: flex;
 	flex-wrap: wrap;
-	height: 100%;
+	height: 80%;
     width: 100%;
 }
 div.table-wrap div.padding {
@@ -292,7 +291,7 @@ table.booking-table tbody th div.cell-content {
 
 
 
-input {
+input, select {
     border: 1px solid #4f6b6b;
     border-radius: 0.5rem;
     padding: 0.5rem;
