@@ -74,8 +74,9 @@
                                 <tr data-ng-repeat-start="room in rooms | filter : filters.sample | filter : filters.byPriceRange()" class="padding"></tr>
                                 <tr data-ng-repeat-end>
                                     <th>
-                                        <div class="cell-content"
+                                        <div class="cell-content pointer-cursor"
                                              ng-click="showInfo(room.description)">
+                                            <img class="room-info-icon" src="./images/questionmark-icon.png">
                                             <div><strong>{{ roomTypes[room.type] }}</strong><small> #{{ room.number }}</small></div>
                                             <div>Floor: {{ room.storey }}</div>
                                             <div>{{ room.price }}$</div>
@@ -115,7 +116,7 @@
                      tooltip-controller="mainController"
                      tooltip-side='top right'
                      tooltip-show-trigger="click"
-                     tooltip-hide-trigger="click"
+                     tooltip-hide-trigger="mouseleave"
                      tooltip-class="colors-info-tooltip">
                 <span class="delim"></span>
                 <span class="booked-info" data-ng-bind="bookedMsg"></span>
@@ -137,12 +138,34 @@
                 <form name="user" id="user">
                     <div class="input-group">
                         <label for="name">Full name:</label>
-                        <input enter-press-exec="enterPressed($event)" id="name" name="name" type="text" data-ng-model="name" data-ng-pattern="namePattern" required />
-                        <span class="warning" data-ng-show="user.name.$touched && user.name.$invalid">Start name with capital letter</span>
+                        <input enter-press-exec="enterPressed($event)"
+                               id="name"
+                               name="name"
+                               type="text"
+                               data-ng-model="name"
+                               data-ng-pattern="namePattern"
+                               required
+                               tooltips
+                               tooltip-template="Please, enter your name. Use Latin letters, hyphens, dots, apostrophes and spaces. Start with capital letter."
+                               tooltip-side="right"
+                               tooltip-show-trigger="mouseover"
+                               tooltip-hide-trigger="mouseout" />
+                        <span class="warning" data-ng-show="user.name.$touched && user.name.$invalid">Please, enter your name.</span>
                     </div>
                     <div class="input-group">
                         <label for="email">Email:</label>
-                        <input enter-press-exec="enterPressed($event)" id="email" name="email" type="email" data-ng-model="email" required />
+                        <input
+                            enter-press-exec="enterPressed($event)"
+                            id="email"
+                            name="email"
+                            type="email"
+                            data-ng-model="email"
+                            required
+                            tooltips
+                            tooltip-template="Please, enter your email"
+                            tooltip-side="right"
+                            tooltip-show-trigger="mouseover"
+                            tooltip-hide-trigger="mouseout"/>
                         <span class="warning" data-ng-show="user.email.$touched && user.email.$invalid">Please, enter a valid email</span>
                     </div>
                     <div class="input-group">

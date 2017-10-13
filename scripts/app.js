@@ -48,8 +48,6 @@ let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModa
                         scope.$eval(attrs.enterPressExec, { $event: $event });
                     });
 
-                    if (!$event._preventDefault)
-                        debugger;
                     if ($event._preventDefault)
                         $event.preventDefault();
                 }
@@ -449,18 +447,20 @@ let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModa
     }
     function wrapDescription(description)
     {
-        var regex = /<img.*?\/?>/;
+        var regex = /<img.*?\/?>/g;
         var matches, images = {};
 
         while ((matches = regex.exec(description)) !== null) {
-            debugger;
-            images[matches[0]] = matches[0].split('>').join(' ng-click="showInfo('+matches[0]+'">');
+            images[matches[0]] = matches[0].replace(' ', ' data-ng-mousedown="zoomElement($event)" ');
         }
-        description.replace()
         for (var repl in images)
-            description.replace(repl, images[repl]);
+            description = description.replace(repl, images[repl]);
         return description;
     }
+    $scope.zoomElement = function(event) {
+        let sourceHtml = (event.target ? event.target : event.originalEvent.srcElement).innerHTML;
+        $scope.showInfo(sourceHtml.replace(' data-ng-mousedown="zoomElement($event)" ', ' '));
+    };
     $scope.bookedCount = function()
     {
         return bookedRooms.length;
@@ -495,7 +495,7 @@ let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModa
     $scope.name = "";
     $scope.email = "";
     $scope.is18 = false;
-    $scope.namePattern = /[A-Z]([a-zA-Z\-'])+/;
+    $scope.namePattern = /[A-Z]([a-zA-Z\-'\. ])+/;
     $scope.formSubmit = function () {
         User.data.name = $scope.name;
         User.data.email = $scope.email;

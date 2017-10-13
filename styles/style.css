@@ -417,3 +417,12 @@ div.input-group
 .fancymodal-data img {
     width: 80%;
 }
+
+img.room-info-icon {
+    width: 1.2rem;
+    display: inline;
+    float: left;
+}
+.pointer-cursor {
+    cursor: pointer;
+}
