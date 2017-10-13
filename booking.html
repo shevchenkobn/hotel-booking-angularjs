@@ -1,0 +1,168 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" href="./styles/style.css" type="text/css">
+        <script src="./scripts/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="./scripts/jquery.sticky.js"></script>
+        <script src="./scripts/angular.min.js"></script>
+        <script src="./scripts/angular-tooltips.min.js"></script>
+        <link href="./styles/angular-tooltips.min.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="./scripts/angular-animate.min.js"></script>
+        <link href="./styles/ng-animation.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="./scripts/dummy-data.js"></script>
+        <script type="text/javascript" src="./scripts/scripts.js"></script>
+        <script src="./scripts/app.js"></script>
+        <script src="./scripts/angular-fancy-modal.min.js"></script>
+        <link href="./styles/angular-fancy-modal.min.css" rel="stylesheet" type="text/css">
+        <link href="./styles/angular-fancy-modal-theme-classic.min.css" rel="stylesheet" type="text/css">
+
+        <!-- https://github.com/vesparny/angular-fancy-modal/tree/master/dist-->
+        <title>Hotel booking</title>
+    </head>
+    <body data-ng-app="hotel-booking" data-ng-controller="mainController" data-ng-mousemove="mouseMove($event)">
+        <div class="page-header">
+            <h2 class="logo-script">Hotel booking</h2>
+            <div class="info">+1 1234 5678</br>hotel@hotel-mail.com</div>
+        </div>
+        <div id="status-bar">
+            <ul class="progressbar">
+                <li data-ng-class="getState() >= prop ? 'active' : ''" data-ng-repeat="prop in stateEnum" data-ng-click="goto(prop)"></li>
+            </ul>
+        </div>
+        <h2 class="hint" data-ng-bind="hint"></h2>
+        <div data-ng-show="getState() == stateEnum.ROOM">
+            <div class="center-blocks container">
+                <div class="filters">
+                    <p>Apply filters:</p>
+                    <form>
+                        <div class="input-group">
+                            <label>Floor of the room:</label>
+                            <select data-ng-model="filters.sample.storey">
+                                <option value="">Select</option>
+                                <option ng-repeat="option in availableFloors">{{ option }}</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Type of the room:</label>
+                            <select data-ng-model="filters.sample.type">
+                                <option value="">Select</option>
+                                <option ng-repeat="(key, name) in roomTypes" value="{{ key }}">{{ name }}</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Price limits:</label>
+                            <input enter-press-exec="enterPressed($event)" type="number" step="1" min="1" data-ng-model="filters.minPrice">
+                            <input enter-press-exec="enterPressed($event)" type="number" step="1" min="1" data-ng-model="filters.maxPrice">
+                        </div>
+                    </form>
+                </div>
+                <div class="table-wrap">
+                    <div class="padding"></div>
+                    <div class="header-top-wrap scroll-left-dest">
+                        <table class="booking-table">
+                            <tbody>
+                                <tr>
+                                    <th data-ng-repeat="date in dateRange"><div class="cell-content">{{ formatDate(date) }}</div></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="header-left-wrap scroll-top-dest">
+                        <table>
+                            <tbody>
+                                <tr data-ng-repeat-start="room in rooms | filter : filters.sample | filter : filters.byPriceRange()" class="padding"></tr>
+                                <tr data-ng-repeat-end>
+                                    <th>
+                                        <div class="cell-content"
+                                             ng-click="showInfo(room.description)">
+                                            <div><strong>{{ roomTypes[room.type] }}</strong><small> #{{ room.number }}</small></div>
+                                            <div>Floor: {{ room.storey }}</div>
+                                            <div>{{ room.price }}$</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="data-wrap scroll-top-src scroll-left-src" set-data-table-wrap>
+                        <table class="booking-table">
+                            <tbody>
+                                <tr class="padding" data-ng-repeat-start="room in rooms | filter : filters.sample | filter : filters.byPriceRange()"></tr>
+                                <tr data-ng-repeat-end>
+                                    <td class="default"
+                                        data-ng-repeat="date in dateRange"
+                                        data-ng-class="isBooked(room, date) ? 'booked' : ''"
+                                        bind-element-item
+                                        data-ng-mousedown="mouseEventHandler('down', $event)"
+                                        data-ng-mousemove="mouseEventHandler('move', $event)"
+                                        data-ng-mouseup="mouseEventHandler('up', $event)">
+                                        <div class="cell-content noselect">{{formatDate(date)}}</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-info">
+                <span class="color-info">Colors info:</span>
+                <img class="details-icon"
+                     src="./images/questionmark-icon.png"
+                     alt="?, details"
+                     tooltips
+                     tooltip-template="{{ colorsInfo }}"
+                     tooltip-controller="mainController"
+                     tooltip-side='top right'
+                     tooltip-show-trigger="click"
+                     tooltip-hide-trigger="click"
+                     tooltip-class="colors-info-tooltip">
+                <span class="delim"></span>
+                <span class="booked-info" data-ng-bind="bookedMsg"></span>
+                <img class="details-icon"
+                     src="./images/questionmark-icon.png"
+                     alt="?, details"
+                     tooltips
+                     tooltip-template="{{ bookedDetails }}"
+                     tooltip-controller="mainController"
+                     tooltip-side='top'
+                     tooltip-show-trigger="click"
+                     tooltip-hide-trigger="click"
+                     tooltip-class="booking-summary">
+                <button class="small-nomargin" data-ng-disabled="!bookedCount()" data-ng-click="bookingFinish()">Next >></button>
+            </div>
+        </div>
+        <div class="container" data-ng-show="getState() == stateEnum.FORM" class="center-blocks">
+            <div class="panel">
+                <form name="user" id="user">
+                    <div class="input-group">
+                        <label for="name">Full name:</label>
+                        <input enter-press-exec="enterPressed($event)" id="name" name="name" type="text" data-ng-model="name" data-ng-pattern="namePattern" required />
+                        <span class="warning" data-ng-show="user.name.$touched && user.name.$invalid">Start name with capital letter</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email:</label>
+                        <input enter-press-exec="enterPressed($event)" id="email" name="email" type="email" data-ng-model="email" required />
+                        <span class="warning" data-ng-show="user.email.$touched && user.email.$invalid">Please, enter a valid email</span>
+                    </div>
+                    <div class="input-group">
+                        <label style="display: inline-block"> I am 18 already: 
+                            <input enter-press-exec="enterPressed($event)" type="checkbox" data-ng-model="is18" required>
+                        </label>
+                        <span class="warning" data-ng-show="user.email.$touched && !is18">You should be 18 to proceed</span>
+                    </div>
+                    <button data-ng-click="formSubmit()" enter-press-exec="enterPressed($event)" data-ng-disabled="user.$invalid">Next >></button>
+                </form>
+            </div>
+        </div>
+        <div data-ng-show="getState() == stateEnum.FINISH" class="container finish">
+            <h1 class="thank">Thank you for choosing our hotel!</h1>
+            
+            <div class="summary" ng-bind-html="userInfo">
+            </div>
+            <h2>Now you need to pay for that!</h2>
+            <button>REGISTER ME</button>
+            <button>Pay for booking</button>
+        </div>
+    </body>
+</html>

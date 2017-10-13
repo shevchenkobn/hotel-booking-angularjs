@@ -443,9 +443,23 @@ let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModa
                     }
                     return str + "</ul>";
                 })(col[i].dates) + "</div>" +
-                "<div><strong>Description: </strong>" + col[i].description + "</div>";
+                "<div><strong>Description: </strong>" + wrapDescription(col[i].description) + "</div>";
         }
         $scope.bookedDetails = details + "</ul>";
+    }
+    function wrapDescription(description)
+    {
+        var regex = /<img.*?\/?>/;
+        var matches, images = {};
+
+        while ((matches = regex.exec(description)) !== null) {
+            debugger;
+            images[matches[0]] = matches[0].split('>').join(' ng-click="showInfo('+matches[0]+'">');
+        }
+        description.replace()
+        for (var repl in images)
+            description.replace(repl, images[repl]);
+        return description;
     }
     $scope.bookedCount = function()
     {
