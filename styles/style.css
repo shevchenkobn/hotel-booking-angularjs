@@ -417,12 +417,26 @@ div.input-group
 .fancymodal-data img {
     width: 80%;
 }
-
+.cell-content img {
+    text-align: left;
+}
 img.room-info-icon {
     width: 1.2rem;
-    display: inline;
-    float: left;
+    position: relative;
+    display: block;
+    left: 0;
+    bottom: 1.6rem;
 }
 .pointer-cursor {
     cursor: pointer;
+}
+.page-header a {
+    text-decoration: none;
+}
+.page-header a:visited {
+    color: inherit;
+}
+
+.page-header a:hover {
+    color: inherit;
 }

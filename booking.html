@@ -22,7 +22,7 @@
     </head>
     <body data-ng-app="hotel-booking" data-ng-controller="mainController" data-ng-mousemove="mouseMove($event)">
         <div class="page-header">
-            <h2 class="logo-script">Hotel booking</h2>
+            <a href="./index.html"><h2 class="logo-script">Hotel booking</h2></a>
             <div class="info">+1 1234 5678</br>hotel@hotel-mail.com</div>
         </div>
         <div id="status-bar">
@@ -76,10 +76,10 @@
                                     <th>
                                         <div class="cell-content pointer-cursor"
                                              ng-click="showInfo(room.description)">
-                                            <img class="room-info-icon" src="./images/questionmark-icon.png">
                                             <div><strong>{{ roomTypes[room.type] }}</strong><small> #{{ room.number }}</small></div>
                                             <div>Floor: {{ room.storey }}</div>
                                             <div>{{ room.price }}$</div>
+                                            <img class="room-info-icon" src="./images/questionmark-icon.png">
                                         </div>
                                     </th>
                                 </tr>
