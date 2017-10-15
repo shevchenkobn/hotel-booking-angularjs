@@ -12,8 +12,9 @@ body {
 }
 
 nav {
-    width: calc(100% - 40px);
+    width: 100%;
     position: fixed;
+    z-index: 999;
     padding: 4px 20px 5px;
     background-color: #2fbaeb;
     border-bottom: 4px solid #50EBFF;
@@ -75,7 +76,86 @@ nav ul.links li.active {
     border-radius: 0.2rem;
 }
 /* body */
-div.container {
+div.nav-offset {
+    height: 5.7rem;
+}
+
+.carousel > .carousel-inner > .item > img {
+    width: 100%;
+}
+.carousel > .carousel-inner > .item * {
+    color: #008c0b;
+    font-weight: 600;
+}
+.carousel .carousel-indicators .active {
+    background-color: #008c0b;
+}
+.carousel .carousel-indicators li {
+    border-color: #008c0b;
+}
+.carousel-control:focus, .carousel-control:hover {
+    color: #2fbaeb;
+}
+.carousel-control {
+    color:#2fbaeb;
+}
+.tile {
+    display: inline-block;
+    width: 50%;
+    margin: 3rem 25%;
+}
+.tile * {
+    color: #358c35;
+    font-weight: 600;
+    font-size: 2rem;
+}
+.tile > * {
     padding: 4.5rem;
+    display: inline-block;
+}
+.tile > .icon {
+    max-width: 33%;
+    vertical-align: top;
+}
+.tile > .icon > img {
+    width: 10rem;
+    height: 10rem;
+}
+.tile > .title {
+    width: 66%;
+}
+.text-center {
+    text-align: center;
+}
+.register-link {
+    text-align: center;
+    margin: 2rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 3rem;
+    letter-spacing: 0.4rem;
+    font-weight: 600;
+    display: inline-block;
+    padding: 2rem 5rem;
+    background-color: #2fbaeb;
+    border-radius: 0.4rem;
+    text-decoration: none;
+}
+.register-link:hover {
+    color: #358c35;
+    text-decoration: none;
+}
+
+footer {
+    width: 100%;
+    padding: 3rem;
+    font-size: 2rem;
+    color: #fff;
+    text-align: left;
+    box-sizing: border-box;
+    background-color: #6ebbe8;
+}
+footer p {
+    margin: 0;
 }
 
