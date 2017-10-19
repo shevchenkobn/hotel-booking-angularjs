@@ -136,7 +136,12 @@
         <div class="container" data-ng-show="getState() == stateEnum.FORM" class="center-blocks">
             <div class="panel">
                 <form name="user" id="user">
-                    <div class="input-group">
+                    <div class="input-group"
+                         tooltips
+                         tooltip-template="Please, enter your name. Use Latin letters, hyphens, dots, apostrophes and spaces. Start with capital letter."
+                         tooltip-side="right"
+                         tooltip-show-trigger="mouseover"
+                         tooltip-hide-trigger="mouseout" >
                         <label for="name">Full name:</label>
                         <input enter-press-exec="enterPressed($event)"
                                id="name"
@@ -144,15 +149,15 @@
                                type="text"
                                data-ng-model="name"
                                data-ng-pattern="namePattern"
-                               required
-                               tooltips
-                               tooltip-template="Please, enter your name. Use Latin letters, hyphens, dots, apostrophes and spaces. Start with capital letter."
-                               tooltip-side="right"
-                               tooltip-show-trigger="mouseover"
-                               tooltip-hide-trigger="mouseout" />
+                               required/>
                         <span class="warning" data-ng-show="user.name.$touched && user.name.$invalid">Please, enter your name.</span>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group"
+                         tooltips
+                         tooltip-template="Please, enter your email"
+                         tooltip-side="right"
+                         tooltip-show-trigger="mouseover"
+                         tooltip-hide-trigger="mouseout">
                         <label for="email">Email:</label>
                         <input
                             enter-press-exec="enterPressed($event)"
@@ -160,12 +165,7 @@
                             name="email"
                             type="email"
                             data-ng-model="email"
-                            required
-                            tooltips
-                            tooltip-template="Please, enter your email"
-                            tooltip-side="right"
-                            tooltip-show-trigger="mouseover"
-                            tooltip-hide-trigger="mouseout"/>
+                            required/>
                         <span class="warning" data-ng-show="user.email.$touched && user.email.$invalid">Please, enter a valid email</span>
                     </div>
                     <div class="input-group">
