@@ -172,8 +172,9 @@ let app = angular.module('hotel-booking', ['720kb.tooltips', 'vesparny.fancyModa
         return true;
     };
     data.rooms.compare = function(item1, item2) {
-        return item1.type == item2.type && item1.storey == item2.storey && item1.number == item2.number && item1.price == item2.price
-            && item1.description == item2.description;
+        return item1.id == item2.id;
+        // return item1.type == item2.type && item1.storey == item2.storey && item1.number == item2.number && item1.price == item2.price
+        //     && item1.description == item2.description;
     };
     bookedRooms.compare = function(item1, item2) {
         return data.rooms.compare(item1, item2) && item1.date.getDate() == item2.date.getDate() &&
