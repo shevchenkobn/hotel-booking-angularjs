@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="feba67b4-dae6-437b-88ef-b4dc89123d4a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/app.js" afterPath="$PROJECT_DIR$/scripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles/style.css" afterPath="$PROJECT_DIR$/styles/style.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/dummy-data.js" afterPath="$PROJECT_DIR$/scripts/dummy-data.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/dummy-data.js" afterPath="$PROJECT_DIR$/scripts/dummy-data.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -42,7 +40,7 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
+            <state relative-caret-position="-4494">
               <caret line="174" column="36" lean-forward="false" selection-start-line="174" selection-start-column="36" selection-end-line="174" selection-end-column="36" />
               <folding />
             </state>
@@ -52,8 +50,8 @@
       <file leaf-file-name="dummy-data.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scripts/dummy-data.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="219" column="18" lean-forward="false" selection-start-line="219" selection-start-column="18" selection-end-line="219" selection-end-column="18" />
+            <state relative-caret-position="168">
+              <caret line="215" column="16" lean-forward="false" selection-start-line="215" selection-start-column="16" selection-end-line="215" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -227,12 +225,12 @@
       <workItem from="1507793825942" duration="2363000" />
       <workItem from="1507870359619" duration="7732000" />
       <workItem from="1508074445904" duration="7830000" />
-      <workItem from="1508384635543" duration="1004000" />
+      <workItem from="1508384635543" duration="1190000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36908000" />
+    <option name="totallyTimeSpent" value="37094000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
@@ -589,7 +587,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
+        <state relative-caret-position="-4494">
           <caret line="174" column="36" lean-forward="false" selection-start-line="174" selection-start-column="36" selection-end-line="174" selection-end-column="36" />
           <folding />
         </state>
@@ -597,8 +595,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/dummy-data.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="219" column="18" lean-forward="false" selection-start-line="219" selection-start-column="18" selection-end-line="219" selection-end-column="18" />
+        <state relative-caret-position="168">
+          <caret line="215" column="16" lean-forward="false" selection-start-line="215" selection-start-column="16" selection-end-line="215" selection-end-column="16" />
           <folding />
         </state>
       </provider>
